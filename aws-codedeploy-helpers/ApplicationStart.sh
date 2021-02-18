@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-service nginx start
+sudo service nginx restart
