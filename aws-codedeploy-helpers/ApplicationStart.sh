@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
-sudo service nginx restart
+chown -R $USER .
+service nginx restart

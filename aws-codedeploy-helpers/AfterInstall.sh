@@ -2,4 +2,3 @@
 
 chown -R $USER .
 bin/setup
-sudo service nginx restart
