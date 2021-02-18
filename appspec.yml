@@ -7,7 +7,6 @@ hooks:
   BeforeInstall:
     - location: aws-codedeploy-helpers/BeforeInstall.sh
       timeout: 1000
-      runas: gideon
 
   ApplicationStart:
     - location: aws-codedeploy-helpers/ApplicationStart.sh
