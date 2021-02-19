@@ -3,6 +3,9 @@ os: linux
 files:
   - source: /
     destination: /var/www/shoop
+  - source: ./shoop.conf
+    destination: /etc/nginx/sites-enabled
+
 hooks:
   BeforeInstall:
     - location: aws-codedeploy-helpers/BeforeInstall.sh
