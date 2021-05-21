@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :brand do
-    name { Faker::Commerce.unique.material }
+    name { Faker::Name.unique.name }
     meta { {} }
 
     factory :brand_with_products do

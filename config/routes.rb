@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
   resources :users
-  resources :brands, only: :create
+  resources :brands, only: [:create, :index]
 end
 

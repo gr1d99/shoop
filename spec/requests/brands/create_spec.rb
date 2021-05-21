@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Brands", type: :request do
-  describe "POST /" do
+  describe "POST /brands" do
     let(:brand_params) { { brand: {} } }
 
     context 'When params are valid' do

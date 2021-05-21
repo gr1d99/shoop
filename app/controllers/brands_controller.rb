@@ -1,4 +1,10 @@
 class BrandsController < ApplicationController
+  def index
+    @brands = Brand.all
+
+    render json: @brands
+  end
+
   def create
     @brand = Brand.new(brand_params)
 
