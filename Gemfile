@@ -12,10 +12,11 @@ gem 'rack-cors'
 gem 'rails', '~> 6.0.3', '>= 6.0.3.4'
 
 group :development, :test do
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-  gem "factory_bot_rails"
-  gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'master'
+  gem 'byebug', platforms: %i[mri mingw x64_mingw]
+  gem 'factory_bot_rails'
+  gem 'faker', git: 'https://github.com/faker-ruby/faker.git', branch: 'master'
   gem 'guard-rspec', require: false
+  gem 'pry-rails'
   gem 'rspec-rails'
   gem 'shoulda-matchers', '~> 4.0'
 end
@@ -30,4 +31,4 @@ group :test do
   gem 'database_cleaner-active_record'
 end
 
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]

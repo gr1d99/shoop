@@ -14,6 +14,6 @@ RSpec.describe Product, type: :model do
 
     specify { should belong_to(:brand).required }
 
-    specify { should have_one(:category).through(:categorization) }
+    specify { should have_one(:category).through(:categorization).required }
   end
 end

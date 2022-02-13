@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe "Brands", type: :request do
-  before(:all) { FactoryBot.create_list(:brand, 10 ) }
+RSpec.describe 'Brands', type: :request do
+  before(:all) { FactoryBot.create_list(:brand, 10) }
 
-  describe "GET /brands" do
+  describe 'GET /brands' do
     before(:each) { get brands_path }
 
     it 'returns status code 200' do

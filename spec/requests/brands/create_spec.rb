@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe "Brands", type: :request do
-  describe "POST /brands" do
+RSpec.describe 'Brands', type: :request do
+  describe 'POST /brands' do
     let(:brand_params) { { brand: {} } }
 
     context 'When params are valid' do
@@ -18,13 +18,13 @@ RSpec.describe "Brands", type: :request do
       end
 
       it 'returns data in response body' do
-        expect(response.parsed_body["name"]).to eq(brand_name)
+        expect(response.parsed_body['name']).to eq(brand_name)
       end
     end
 
     context 'When params are invalid' do
       before do
-        brand_params[:brand] = { name: "" }
+        brand_params[:brand] = { name: '' }
 
         post brands_url, params: brand_params
       end
@@ -34,7 +34,7 @@ RSpec.describe "Brands", type: :request do
       end
 
       it 'returns error message in response body' do
-        expect(response.parsed_body["name"]).to include("can't be blank")
+        expect(response.parsed_body['name']).to include("can't be blank")
       end
     end
   end

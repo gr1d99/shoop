@@ -7,7 +7,7 @@ class Product < ApplicationRecord
   belongs_to :brand, required: true
 
   has_one :categorization, class_name: 'CategoryProduct'
-  has_one :category, through: :categorization, class_name: 'CategoryProduct'
+  has_one :category, through: :categorization, class_name: 'CategoryProduct', required: true
 
   with_options presence: true do
     validates :name
