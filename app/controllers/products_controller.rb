@@ -1,4 +1,10 @@
 class ProductsController < ApplicationController
+  def show
+    @product = Product.friendly.find(params[:id])
+
+    render json: ProductSerializer.new(@product)
+  end
+
   def index
     render json: Product.all
   end
@@ -15,7 +21,7 @@ class ProductsController < ApplicationController
     if @product.valid?
       @product.save!
 
-      render json: @product, status: :created
+      render json: ProductSerializer.new(@product).serializable_hash, status: :created
     else
       render json: @product.errors, status: :unprocessable_entity
     end

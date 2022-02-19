@@ -29,7 +29,7 @@ end
     price: rand(2000),
     images: Faker::Placeholdit.image,
     created_by: user,
-    brand: Brand.all.shuffle.first,
-    category: Category.all.shuffle.first
+    brand: Brand.all.sample,
+    category: Category.all.sample
   )
 end
