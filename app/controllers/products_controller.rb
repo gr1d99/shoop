@@ -6,7 +6,7 @@ class ProductsController < ApplicationController
   end
 
   def index
-    render json: Product.all
+    render json: ProductSerializer.new(Product.all)
   end
 
   def create
@@ -21,7 +21,7 @@ class ProductsController < ApplicationController
     if @product.valid?
       @product.save!
 
-      render json: ProductSerializer.new(@product).serializable_hash, status: :created
+      render json: ProductSerializer.new(@product), status: :created
     else
       render json: @product.errors, status: :unprocessable_entity
     end
