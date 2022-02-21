@@ -8,6 +8,6 @@ RSpec.describe Category, type: :model do
   end
 
   describe 'association' do
-    specify { should have_many(:products).through(:categorization) }
+    specify { should have_many(:products) }
   end
 end

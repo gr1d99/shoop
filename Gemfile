@@ -7,6 +7,7 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'foreman'
 gem 'friendly_id', '~> 5.4.0'
+gem 'jsonapi.rb'
 gem 'jsonapi-serializer'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 4.1'

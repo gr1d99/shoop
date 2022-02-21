@@ -1,6 +1,8 @@
 class CategoriesController < ApplicationController
   def index
-    render json: Category.all
+    @categories = Category.all
+
+    render json: CategorySerializer.new(@categories)
   end
 
   def create
@@ -9,9 +11,9 @@ class CategoriesController < ApplicationController
     if @category.valid?
       @category.save!
 
-      render json: @category, status: :created
+      render json: CategorySerializer.new(@category), status: :created
     else
-      render json: @category.errors, status: :unprocessable_entity
+      render jsonapi_errors: @category.errors, status: :unprocessable_entity
     end
   end
 

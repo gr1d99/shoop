@@ -23,7 +23,7 @@ class ProductsController < ApplicationController
 
       render json: ProductSerializer.new(@product), status: :created
     else
-      render json: @product.errors, status: :unprocessable_entity
+      render jsonapi_errors: @product.errors, status: :unprocessable_entity
     end
   end
 
