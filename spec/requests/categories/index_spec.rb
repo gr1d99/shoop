@@ -11,7 +11,7 @@ RSpec.describe 'Categories', type: :request do
     end
 
     it 'returns all categories' do
-      expect(response.parsed_body.count).to eql(10)
+      expect(response.parsed_body['data'].count).to eql(10)
     end
   end
 end

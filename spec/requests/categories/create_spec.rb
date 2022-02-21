@@ -18,7 +18,7 @@ RSpec.describe 'Categories', type: :request do
       end
 
       it 'returns data in response body' do
-        expect(response.parsed_body['name']).to eq(name)
+        expect(response.parsed_body['data']['attributes']['name']).to eq(name)
       end
     end
   end
