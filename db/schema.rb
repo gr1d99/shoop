@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_21_033017) do
+ActiveRecord::Schema.define(version: 2022_03_11_014504) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,8 @@ ActiveRecord::Schema.define(version: 2022_02_21_033017) do
     t.jsonb "meta"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_brands_on_deleted_at"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -29,6 +31,8 @@ ActiveRecord::Schema.define(version: 2022_02_21_033017) do
     t.jsonb "meta"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_categories_on_deleted_at"
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -42,11 +46,35 @@ ActiveRecord::Schema.define(version: 2022_02_21_033017) do
     t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
   end
 
+  create_table "option_values", force: :cascade do |t|
+    t.string "name"
+    t.bigint "option_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["option_id"], name: "index_option_values_on_option_id"
+  end
+
+  create_table "option_values_variants", force: :cascade do |t|
+    t.bigint "option_value_id", null: false
+    t.bigint "variant_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["option_value_id"], name: "index_option_values_variants_on_option_value_id"
+    t.index ["variant_id"], name: "index_option_values_variants_on_variant_id"
+  end
+
+  create_table "options", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_options_on_deleted_at"
+  end
+
   create_table "products", force: :cascade do |t|
     t.string "slug"
     t.string "name"
     t.string "images"
-    t.decimal "price", precision: 8, scale: 2
     t.jsonb "meta"
     t.bigint "created_by"
     t.datetime "created_at", precision: 6, null: false
@@ -54,9 +82,20 @@ ActiveRecord::Schema.define(version: 2022_02_21_033017) do
     t.text "description", null: false
     t.bigint "brand_id", null: false
     t.bigint "category_id", null: false
+    t.datetime "deleted_at"
     t.index ["brand_id"], name: "index_products_on_brand_id"
     t.index ["category_id"], name: "index_products_on_category_id"
     t.index ["created_by"], name: "index_products_on_created_by"
+    t.index ["deleted_at"], name: "index_products_on_deleted_at"
+  end
+
+  create_table "products_options", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.bigint "option_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["option_id"], name: "index_products_options_on_option_id"
+    t.index ["product_id"], name: "index_products_options_on_product_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -67,8 +106,28 @@ ActiveRecord::Schema.define(version: 2022_02_21_033017) do
     t.string "password_digest"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_users_on_deleted_at"
   end
 
+  create_table "variants", force: :cascade do |t|
+    t.string "sku"
+    t.boolean "is_master", default: false
+    t.decimal "price", precision: 8, scale: 2
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "product_id", null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_variants_on_deleted_at"
+    t.index ["product_id"], name: "index_variants_on_product_id"
+  end
+
+  add_foreign_key "option_values", "options"
+  add_foreign_key "option_values_variants", "option_values"
+  add_foreign_key "option_values_variants", "variants"
   add_foreign_key "products", "brands"
   add_foreign_key "products", "categories"
+  add_foreign_key "products_options", "options"
+  add_foreign_key "products_options", "products"
+  add_foreign_key "variants", "products"
 end
