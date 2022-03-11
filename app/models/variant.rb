@@ -1,4 +1,8 @@
 class Variant < ApplicationRecord
+  extend FriendlyId
+
+  friendly_id :name, use: :history
+
   acts_as_paranoid
 
   belongs_to :product
