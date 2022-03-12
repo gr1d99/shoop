@@ -4,7 +4,7 @@ class ApplicationController < ActionController::API
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
   def authenticate
-    authenticate_with_http_token do |token, options|
+    authenticate_with_http_token do |token, _options|
       p "token = #{token}"
 
       # Compare the tokens in a time-constant manner, to mitigate

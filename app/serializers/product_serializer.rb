@@ -3,7 +3,7 @@ class ProductSerializer
 
   attributes :brand_id,
              :category_id,
-             :name, :price,
+             :name,
              :description,
              :images,
              :meta

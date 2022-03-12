@@ -1,7 +1,9 @@
 class Brand < ApplicationRecord
   extend FriendlyId
 
-  friendly_id :name, use: :slugged
+  friendly_id :name, use: :history
+
+  acts_as_paranoid
 
   has_many :products
 
