@@ -14,7 +14,7 @@ RSpec.describe 'Products', type: :request do
 
       before do
         product_params[:product] =
-          { name: name, description: description, price: price, brand_id: brand.id, category_id: category.id,
+          { name: name, description: description, brand_id: brand.id, category_id: category.id,
             created_by: user.id }
 
         post products_path, params: product_params
