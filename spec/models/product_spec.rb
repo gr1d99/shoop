@@ -4,8 +4,6 @@ RSpec.describe Product, type: :model do
   describe 'validation' do
     specify { should validate_presence_of(:name) }
 
-    specify { should validate_presence_of(:price) }
-
     specify { should validate_presence_of(:description) }
   end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_220_311_034_648) do
+ActiveRecord::Schema.define(version: 20_220_312_022_706) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -102,6 +102,13 @@ ActiveRecord::Schema.define(version: 20_220_311_034_648) do
     t.index ['product_id'], name: 'index_products_options_on_product_id'
   end
 
+  create_table 'skus', force: :cascade do |t|
+    t.string 'no', null: false
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.index ['no'], name: 'index_skus_on_no'
+  end
+
   create_table 'users', force: :cascade do |t|
     t.string 'first_name'
     t.string 'last_name'
@@ -115,7 +122,6 @@ ActiveRecord::Schema.define(version: 20_220_311_034_648) do
   end
 
   create_table 'variants', force: :cascade do |t|
-    t.string 'sku'
     t.boolean 'is_master', default: false
     t.decimal 'price', precision: 8, scale: 2
     t.datetime 'created_at', precision: 6, null: false
@@ -123,8 +129,10 @@ ActiveRecord::Schema.define(version: 20_220_311_034_648) do
     t.bigint 'product_id', null: false
     t.datetime 'deleted_at'
     t.string 'slug', null: false
+    t.bigint 'sku_id', null: false
     t.index ['deleted_at'], name: 'index_variants_on_deleted_at'
     t.index ['product_id'], name: 'index_variants_on_product_id'
+    t.index ['sku_id'], name: 'index_variants_on_sku_id'
   end
 
   add_foreign_key 'option_values', 'options'
@@ -135,4 +143,5 @@ ActiveRecord::Schema.define(version: 20_220_311_034_648) do
   add_foreign_key 'products_options', 'options'
   add_foreign_key 'products_options', 'products'
   add_foreign_key 'variants', 'products'
+  add_foreign_key 'variants', 'skus'
 end
