@@ -14,8 +14,17 @@ class Product < ApplicationRecord
   has_many :products_options, class_name: 'ProductsOptions', dependent: :destroy
   has_many :options, through: :products_options
 
-  has_one :master, -> { where is_master: true }, class_name: 'Variant', dependent: :destroy, validate: true
-  has_many :variants, -> { where is_master: false }, class_name: 'Variant', dependent: :destroy
+  has_one :master,
+          -> { where is_master: true },
+          class_name: 'Variant',
+          dependent: :destroy,
+          validate: true,
+          inverse_of: :product
+
+  has_many :variants,
+           -> { where is_master: false },
+           class_name: 'Variant',
+           dependent: :destroy
 
   with_options presence: true do
     validates :name

@@ -13,9 +13,15 @@ RSpec.describe 'Products', type: :request do
       let(:price) { 100.0 }
 
       before do
-        product_params[:product] =
-          { name: name, description: description, brand_id: brand.id, category_id: category.id,
-            created_by: user.id }
+        product_params[:product] = {
+          name: name,
+          description: description,
+          brand_id: brand.id,
+          category_id: category.id,
+          created_by: user.id,
+          price: Faker::Commerce.price,
+          sku: generate_sku
+        }
 
         post products_path, params: product_params
       end
