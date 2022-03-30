@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Sku < ApplicationRecord
   has_one :variant, dependent: :destroy
 
