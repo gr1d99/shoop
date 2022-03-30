@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Brand < ApplicationRecord
   extend FriendlyId
 
@@ -8,6 +10,6 @@ class Brand < ApplicationRecord
   has_many :products
 
   with_options presence: true do
-    validates :name, uniqueness: :true
+    validates :name, uniqueness: true
   end
 end

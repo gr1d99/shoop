@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Product < ApplicationRecord
   extend FriendlyId
 
@@ -20,11 +22,12 @@ class Product < ApplicationRecord
           dependent: :destroy,
           validate: true,
           inverse_of: :product
-
   has_many :variants,
            -> { where is_master: false },
            class_name: 'Variant',
            dependent: :destroy
+
+  has_many :images, as: :imageable
 
   with_options presence: true do
     validates :name

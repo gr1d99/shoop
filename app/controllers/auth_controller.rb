@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AuthController < ApplicationController
   def create
     @user = User.find_by_email(create_params[:email]).authenticate(create_params[:password])
