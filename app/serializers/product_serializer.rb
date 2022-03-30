@@ -8,9 +8,9 @@ class ProductSerializer
              :category_id,
              :name,
              :description,
-             :images,
              :meta
   belongs_to :brand
   has_one :category
+  # has_many :images
   has_many :variants
 end
