@@ -10,7 +10,7 @@ class ProductSerializer
              :description,
              :meta
   attribute :images do |object|
-    object.images.map { |image| { name: image.name, alt: image.alt, url: image.image_url } }
+    object.images.map { |image| { id: image.id, name: image.name, alt: image.alt, url: image.image_url } }
   end
 
   belongs_to :brand
