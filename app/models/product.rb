@@ -7,7 +7,7 @@ class Product < ApplicationRecord
 
   acts_as_paranoid
 
-  belongs_to :created_by, class_name: 'User', foreign_key: :created_by, required: true
+  belongs_to :created_by, class_name: 'User', required: true
 
   belongs_to :brand, required: true
 
@@ -27,7 +27,7 @@ class Product < ApplicationRecord
            class_name: 'Variant',
            dependent: :destroy
 
-  has_many :images, as: :imageable
+  has_many :images, as: :imageable, dependent: :destroy
 
   with_options presence: true do
     validates :name

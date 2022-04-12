@@ -8,7 +8,7 @@ RSpec.describe Product, type: :model do
   end
 
   describe 'association' do
-    specify { should belong_to(:created_by).class_name('User').with_foreign_key(:created_by) }
+    specify { should belong_to(:created_by).class_name('User') }
 
     specify { should belong_to(:brand).required }
 

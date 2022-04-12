@@ -1,5 +1,15 @@
 require 'rails_helper'
 
-RSpec.describe SkuHelper, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+RSpec.describe Sku, type: :model do
+  context 'Associations' do
+    specify { should have_one :variant }
+  end
+
+  context 'Validations' do
+    before { FactoryBot.create(:sku) }
+
+    specify { should validate_presence_of(:sku_no) }
+    specify { should validate_uniqueness_of(:sku_no) }
+
+  end
 end

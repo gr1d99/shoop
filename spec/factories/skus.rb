@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :sku_helper do
-    no { 'MyString' }
+  factory :sku do
+    sku_no { Faker::Name.unique(5).name}
   end
 end

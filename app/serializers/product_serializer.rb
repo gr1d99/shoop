@@ -3,6 +3,9 @@
 class ProductSerializer
   include JSONAPI::Serializer
 
+  attribute :master_variant do |object|
+    MasterVariantSerializer.new(object.master).to_hash
+  end
   attributes :slug,
              :brand_id,
              :category_id,

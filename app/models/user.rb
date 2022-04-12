@@ -5,7 +5,7 @@ class User < ApplicationRecord
 
   has_secure_password
 
-  has_many :products, foreign_key: :created_by, dependent: :destroy
+  has_many :products, foreign_key: :created_by_id, dependent: :destroy
 
   with_options presence: true do
     validates :first_name

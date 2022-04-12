@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Products', type: :request do
-  before(:all) { FactoryBot.create_list(:product, 10) }
+  before(:each) { FactoryBot.create_list(:product, 10, :with_image) }
 
   describe 'GET /products' do
     before(:each) { get products_path }

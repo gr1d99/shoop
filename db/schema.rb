@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_11_032508) do
+ActiveRecord::Schema.define(version: 2022_04_12_041845) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,7 +90,7 @@ ActiveRecord::Schema.define(version: 2022_04_11_032508) do
     t.string "slug"
     t.string "name"
     t.jsonb "meta"
-    t.bigint "created_by"
+    t.bigint "created_by_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.text "description", null: false
@@ -99,7 +99,7 @@ ActiveRecord::Schema.define(version: 2022_04_11_032508) do
     t.datetime "deleted_at"
     t.index ["brand_id"], name: "index_products_on_brand_id"
     t.index ["category_id"], name: "index_products_on_category_id"
-    t.index ["created_by"], name: "index_products_on_created_by"
+    t.index ["created_by_id"], name: "index_products_on_created_by_id"
     t.index ["deleted_at"], name: "index_products_on_deleted_at"
   end
 
@@ -113,10 +113,10 @@ ActiveRecord::Schema.define(version: 2022_04_11_032508) do
   end
 
   create_table "skus", force: :cascade do |t|
-    t.string "no", null: false
+    t.string "sku_no", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["no"], name: "index_skus_on_no"
+    t.index ["sku_no"], name: "index_skus_on_sku_no"
   end
 
   create_table "users", force: :cascade do |t|
