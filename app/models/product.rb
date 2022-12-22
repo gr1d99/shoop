@@ -15,6 +15,7 @@ class Product < ApplicationRecord
 
   has_many :products_options, class_name: 'ProductsOptions', dependent: :destroy
   has_many :options, through: :products_options
+  has_many :cart_items, dependent: :destroy, inverse_of: :product
 
   has_one :master,
           -> { where(is_master: true).includes(:sku) },

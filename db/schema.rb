@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_12_22_033647) do
+ActiveRecord::Schema.define(version: 2022_12_22_133955) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,28 @@ ActiveRecord::Schema.define(version: 2022_12_22_033647) do
     t.datetime "deleted_at"
     t.text "description", default: ""
     t.index ["deleted_at"], name: "index_brands_on_deleted_at"
+  end
+
+  create_table "cart_items", force: :cascade do |t|
+    t.bigint "cart_id", null: false
+    t.bigint "product_id", null: false
+    t.decimal "price", precision: 8, scale: 2
+    t.integer "quantity", default: 1
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["cart_id"], name: "index_cart_items_on_cart_id"
+    t.index ["deleted_at"], name: "index_cart_items_on_deleted_at"
+    t.index ["product_id"], name: "index_cart_items_on_product_id"
+  end
+
+  create_table "carts", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["deleted_at"], name: "index_carts_on_deleted_at"
+    t.index ["user_id"], name: "index_carts_on_user_id"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -148,6 +170,9 @@ ActiveRecord::Schema.define(version: 2022_12_22_033647) do
     t.index ["sku_id"], name: "index_variants_on_sku_id"
   end
 
+  add_foreign_key "cart_items", "carts"
+  add_foreign_key "cart_items", "products"
+  add_foreign_key "carts", "users"
   add_foreign_key "option_values", "options"
   add_foreign_key "option_values_variants", "option_values"
   add_foreign_key "option_values_variants", "variants"
