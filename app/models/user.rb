@@ -16,6 +16,6 @@ class User < ApplicationRecord
   end
 
   def generate_jwt
-    JWT.encode({ id: id, exp: 7.days.from_now.to_i }, Rails.application.secrets.secret_key_base)
+    JWT.encode({ identity: email, exp: 7.days.from_now.to_i }, Rails.application.secrets.secret_key_base)
   end
 end

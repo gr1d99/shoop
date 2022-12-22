@@ -1,10 +1,18 @@
 # frozen_string_literal: true
 
 class BrandsController < ApplicationController
-  def index
-    @brands = Brand.all
+  def show
+    @brand = Brand.friendly.find(params[:id])
 
-    render json: @brands
+    render json: BrandSerializer.new(@brand)
+  end
+
+  def index
+    @brands = Brand.page(pagination_params[:page]).per(pagination_params[:limit])
+
+    with_pagination_options(@brands) do |options|
+      render json: BrandSerializer.new(@brands, options)
+    end
   end
 
   def create

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe 'Brands', type: :request do
@@ -11,7 +13,7 @@ RSpec.describe 'Brands', type: :request do
     end
 
     it 'returns all brands' do
-      expect(response.parsed_body.count).to eql(10)
+      expect(response.parsed_body['data'].count).to eql(10)
     end
   end
 end

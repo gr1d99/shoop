@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class ProductsController < ApplicationController
+  before_action :authenticate, only: %i[create]
   def show
     @product = Product.friendly.find(params[:id])
 
@@ -8,12 +9,16 @@ class ProductsController < ApplicationController
   end
 
   def index
-    render json: ProductSerializer.new(Product.includes(:images, :master).all)
+    @products = Product.includes(:images, :master).page(pagination_params[:page]).per(pagination_params[:limit])
+    with_pagination_options(@products) do |options|
+      render json: ProductSerializer.new(@products, options)
+    end
   end
 
   def create
-    @product = Product.new product_params
+    @product = Product.new product_params.merge(created_by_id: current_user.id)
     @sku = Sku.new sku_params
+
     if @sku.valid?
       @sku.save!
       @product.build_master master_variant_params.merge(sku: @sku)
@@ -35,7 +40,7 @@ class ProductsController < ApplicationController
   end
 
   def product_params
-    params.require(:product).permit(:name, :description, :brand_id, :category_id, :created_by_id)
+    params.require(:product).permit(:name, :description, :brand_id, :category_id)
   end
 
   def master_variant_params
