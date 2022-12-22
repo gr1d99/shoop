@@ -6,6 +6,7 @@ class CategoriesController < ApplicationController
 
     render json: CategorySerializer.new(@category)
   end
+
   def index
     @categories = Category.all
 

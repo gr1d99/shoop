@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
 class BrandsController < ApplicationController
+  def show
+    @brand = Brand.friendly.find(params[:id])
+
+    render json: BrandSerializer.new(@brand)
+  end
+
   def index
     @brands = Brand.all
 

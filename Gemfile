@@ -12,6 +12,7 @@ gem 'friendly_id', '~> 5.4.0'
 gem 'jsonapi.rb'
 gem 'jsonapi-serializer'
 gem 'jwt'
+gem 'kaminari'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 4.1'
 gem 'rack-cors'
@@ -26,6 +27,7 @@ group :development, :test do
   gem 'guard-rspec', require: false
   gem 'pry-rails'
   gem 'rspec-rails'
+  gem 'rubocop-rails'
   gem 'shoulda-matchers', '~> 4.0'
 end
 
