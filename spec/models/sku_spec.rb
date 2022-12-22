@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Sku, type: :model do
@@ -10,6 +12,5 @@ RSpec.describe Sku, type: :model do
 
     specify { should validate_presence_of(:sku_no) }
     specify { should validate_uniqueness_of(:sku_no) }
-
   end
 end

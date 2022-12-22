@@ -2,6 +2,7 @@
 
 class ProductsController < ApplicationController
   before_action :authenticate, only: %i[create]
+  include PaginationConcern
   def show
     @product = Product.friendly.find(params[:id])
 
@@ -9,18 +10,20 @@ class ProductsController < ApplicationController
   end
 
   def index
-    render json: ProductSerializer.new(Product.includes(:images, :master).all)
+    @products = Product.includes(:images, :master).page(pagination_params[:page]).per(pagination_params[:limit])
+    pagination_options(@products) do |options|
+      render json: ProductSerializer.new(@products, options)
+    end
   end
 
   def create
-    p current_user
-    @product = Product.new product_params
+    @product = Product.new product_params.merge(created_by_id: current_user.id)
     @sku = Sku.new sku_params
+
     if @sku.valid?
       @sku.save!
       @product.build_master master_variant_params.merge(sku: @sku)
       if @product.valid? && @sku.valid?
-        @product.created_by_id = current_user.id
         @product.save!
         render json: ProductSerializer.new(@product), status: :created
       else

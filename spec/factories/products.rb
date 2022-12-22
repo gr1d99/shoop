@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :product do
     name { Faker::Commerce.product_name }
@@ -14,8 +16,9 @@ FactoryBot.define do
     end
 
     trait :with_image do
-      after(:create) do |product, evaluator|
-        create :image, name: Faker::Name.name, alt: Faker::Name.name, imageable_type: 'Product', imageable_id: product.id
+      after(:create) do |product, _evaluator|
+        create :image, name: Faker::Name.name, alt: Faker::Name.name, imageable_type: 'Product',
+                       imageable_id: product.id
       end
     end
   end

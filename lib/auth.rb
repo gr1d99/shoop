@@ -20,7 +20,7 @@ module Auth
       block.call user if block_given?
     rescue ::JWT::ExpiredSignature
       raise JwtTokenExpired
-    rescue ::JWT::DecodeError
+    rescue ::JWT::DecodeError, ActiveRecord::RecordNotFound
       raise JwtTokenInvalid
     end
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe 'Products', type: :request do
@@ -18,12 +20,11 @@ RSpec.describe 'Products', type: :request do
           description: description,
           brand_id: brand.id,
           category_id: category.id,
-          created_by_id: user.id,
           price: Faker::Commerce.price,
           sku_no: generate_sku
         }
 
-        post products_path, params: product_params
+        post products_path, params: product_params, headers: authorization_header
       end
 
       it 'returns status code 201' do
