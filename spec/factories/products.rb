@@ -7,6 +7,12 @@ FactoryBot.define do
     brand
     category
 
+    after(:create) do |product|
+      variant = build(:master_variant)
+      variant.product = product
+      variant.save
+    end
+
     trait :with_image do
       after(:create) do |product, evaluator|
         create :image, name: Faker::Name.name, alt: Faker::Name.name, imageable_type: 'Product', imageable_id: product.id

@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
 require 'shrine'
-require 'shrine/storage/s3'
 
-secrets = Rails.application.credentials[:aws]
+if Rails.env.production?
+  require 'shrine/storage/s3'
 
-if Rails.env.production? || Rails.env.development?
+  secrets = Rails.application.credentials[:aws]
+
   s3_options = {
     bucket: secrets[:s3_bucket],
     region: secrets[:region],
@@ -19,7 +20,7 @@ if Rails.env.production? || Rails.env.development?
   }
 end
 
-if Rails.env.test?
+if Rails.env.test? || Rails.env.development?
   require 'shrine/storage/memory'
   Shrine.storages = {
     store: Shrine::Storage::Memory.new

@@ -16,4 +16,8 @@ class Variant < ApplicationRecord
   has_many :option_values, through: :option_values_variants
 
   validates_uniqueness_of :sku_id
+
+  with_options presence: true do
+    validates :price
+  end
 end

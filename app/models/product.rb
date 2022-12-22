@@ -17,7 +17,7 @@ class Product < ApplicationRecord
   has_many :options, through: :products_options
 
   has_one :master,
-          -> { where is_master: true },
+          -> { where(is_master: true).includes(:sku) },
           class_name: 'Variant',
           dependent: :destroy,
           validate: true,
@@ -33,4 +33,6 @@ class Product < ApplicationRecord
     validates :name
     validates :description
   end
+
+  delegate :price, to: :master
 end

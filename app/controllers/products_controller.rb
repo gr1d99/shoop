@@ -8,7 +8,7 @@ class ProductsController < ApplicationController
   end
 
   def index
-    render json: ProductSerializer.new(Product.all)
+    render json: ProductSerializer.new(Product.includes(:images, :master).all)
   end
 
   def create
