@@ -8,9 +8,11 @@ class BrandsController < ApplicationController
   end
 
   def index
-    @brands = Brand.all
+    @brands = Brand.page(pagination_params[:page]).per(pagination_params[:limit])
 
-    render json: @brands
+    with_pagination_options(@brands) do |options|
+      render json: BrandSerializer.new(@brands, options)
+    end
   end
 
   def create

@@ -12,7 +12,7 @@ module PaginationConcern
       params.permit(:page, :limit).with_defaults(page: 1, limit: 25)
     end
 
-    def pagination_options(records, &block)
+    def with_pagination_options(records, &block)
       total_records = records.total_count
       current_page = pagination_params[:page].to_i
       previous_page = current_page.eql?(1) ? 1 : current_page - 1

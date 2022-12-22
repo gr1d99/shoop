@@ -8,9 +8,11 @@ class CategoriesController < ApplicationController
   end
 
   def index
-    @categories = Category.all
+    @categories = Category.page(pagination_params[:page]).per(pagination_params[:limit])
 
-    render json: CategorySerializer.new(@categories)
+    with_pagination_options(@categories) do |options|
+      render json: CategorySerializer.new(@categories, options)
+    end
   end
 
   def create

@@ -2,7 +2,6 @@
 
 class ProductsController < ApplicationController
   before_action :authenticate, only: %i[create]
-  include PaginationConcern
   def show
     @product = Product.friendly.find(params[:id])
 
@@ -11,7 +10,7 @@ class ProductsController < ApplicationController
 
   def index
     @products = Product.includes(:images, :master).page(pagination_params[:page]).per(pagination_params[:limit])
-    pagination_options(@products) do |options|
+    with_pagination_options(@products) do |options|
       render json: ProductSerializer.new(@products, options)
     end
   end

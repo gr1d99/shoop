@@ -3,6 +3,7 @@
 require_relative '../../lib/auth'
 
 class ApplicationController < ActionController::API
+  include PaginationConcern
   include JSONAPI::Errors
 
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
