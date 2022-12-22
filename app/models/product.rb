@@ -20,12 +20,13 @@ class Product < ApplicationRecord
           -> { where(is_master: true).includes(:sku) },
           class_name: 'Variant',
           dependent: :destroy,
-          validate: true,
-          inverse_of: :product
+          inverse_of: :product,
+          validate: true
   has_many :variants,
            -> { where is_master: false },
            class_name: 'Variant',
-           dependent: :destroy
+           dependent: :destroy,
+           validate: true
 
   has_many :images, as: :imageable, dependent: :destroy
 

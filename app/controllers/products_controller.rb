@@ -17,19 +17,14 @@ class ProductsController < ApplicationController
 
   def create
     @product = Product.new product_params.merge(created_by_id: current_user.id)
-    @sku = Sku.new sku_params
-
-    if @sku.valid?
-      @sku.save!
-      @product.build_master master_variant_params.merge(sku: @sku)
-      if @product.valid? && @sku.valid?
-        @product.save!
-        render json: ProductSerializer.new(@product), status: :created
-      else
-        render jsonapi_errors: @product.errors, status: :unprocessable_entity
-      end
+    @sku = Sku.new(sku_params)
+    @product.build_master master_variant_params.merge(sku: @sku)
+    if @product.valid?
+      @sku.sku_no = nil
+      @product.save!
+      render json: ProductSerializer.new(@product), status: :created
     else
-      render jsonapi_errors: @sku.errors, status: :unprocessable_entity
+      render jsonapi_errors: @product.errors, status: :unprocessable_entity
     end
   end
 
