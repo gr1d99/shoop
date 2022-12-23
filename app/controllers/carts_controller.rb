@@ -2,6 +2,14 @@
 
 class CartsController < ApplicationController
   before_action :authenticate
+
+  def index
+    @carts = Cart.page(pagination_params[:page]).per(pagination_params[:limit])
+
+    with_pagination_options(@carts) do |options|
+      render json: CartSerializer.new(@carts, options)
+    end
+  end
   def create
     status = :created
 

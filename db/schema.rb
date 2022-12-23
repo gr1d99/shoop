@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_12_22_133955) do
+ActiveRecord::Schema.define(version: 2022_12_23_090654) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 2022_12_22_133955) do
   create_table "cart_items", force: :cascade do |t|
     t.bigint "cart_id", null: false
     t.bigint "product_id", null: false
-    t.bigint "option_value_id"
+    t.bigint "sku_id", null: false
     t.decimal "amount", precision: 8, scale: 2
     t.integer "quantity", default: 1
     t.datetime "deleted_at"
@@ -37,8 +37,8 @@ ActiveRecord::Schema.define(version: 2022_12_22_133955) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["cart_id"], name: "index_cart_items_on_cart_id"
     t.index ["deleted_at"], name: "index_cart_items_on_deleted_at"
-    t.index ["option_value_id"], name: "index_cart_items_on_option_value_id"
     t.index ["product_id"], name: "index_cart_items_on_product_id"
+    t.index ["sku_id"], name: "index_cart_items_on_sku_id"
   end
 
   create_table "carts", force: :cascade do |t|
@@ -142,6 +142,8 @@ ActiveRecord::Schema.define(version: 2022_12_22_133955) do
     t.string "sku_no", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_skus_on_deleted_at"
     t.index ["sku_no"], name: "index_skus_on_sku_no"
   end
 
@@ -173,8 +175,8 @@ ActiveRecord::Schema.define(version: 2022_12_22_133955) do
   end
 
   add_foreign_key "cart_items", "carts"
-  add_foreign_key "cart_items", "option_values"
   add_foreign_key "cart_items", "products"
+  add_foreign_key "cart_items", "skus"
   add_foreign_key "carts", "users"
   add_foreign_key "option_values", "options"
   add_foreign_key "option_values_variants", "option_values"
