@@ -11,6 +11,7 @@ class OptionValue < ApplicationRecord
 
   has_many :option_values_variants, class_name: 'OptionValuesVariants', dependent: :destroy
   has_many :variants, through: :option_values_variants
+  has_many :cart_items, inverse_of: :option_value
 
   validates :name, presence: true
   validates_uniqueness_of :name, scope: :option_id, case_sensitive: true

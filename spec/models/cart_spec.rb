@@ -1,5 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Cart, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'association' do
+    specify { should have_many(:items).class_name('CartItem').dependent(:destroy) }
+    specify { should belong_to(:user).required }
+  end
 end
