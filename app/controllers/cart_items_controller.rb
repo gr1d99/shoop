@@ -2,10 +2,9 @@
 
 class CartItemsController < ApplicationController
   before_action :authenticate
+  before_action :set_cart
 
   def index
-    @cart = Cart.find(params[:cart_id])
-
     if @cart.user.id != current_user.id
       render json: { message: 'Cart not found' }, status: :not_found
     else
@@ -16,7 +15,6 @@ class CartItemsController < ApplicationController
   end
 
   def create
-    @cart = Cart.find(params[:cart_id])
     @cart_item = @cart.items.build(cart_item_params)
 
     if @cart_item.valid?
@@ -33,7 +31,7 @@ class CartItemsController < ApplicationController
     params.require(:cart_item).permit(:product_id, :amount, :sku_id, :quantity)
   end
 
-  def item_q_params
-    cart_item_params.except(:amount, :quantity)
+  def set_cart
+    @cart = Cart.find(params[:cart_id])
   end
 end
