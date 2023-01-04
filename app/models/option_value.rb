@@ -13,5 +13,5 @@ class OptionValue < ApplicationRecord
   has_many :variants, through: :option_values_variants
 
   validates :name, presence: true
-  validates_uniqueness_of :name, scope: :option_id, case_sensitive: true
+  validates :name, uniqueness: { scope: :option_id, case_sensitive: true }
 end

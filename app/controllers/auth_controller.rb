@@ -2,7 +2,7 @@
 
 class AuthController < ApplicationController
   def create
-    @user = User.find_by_email(create_params[:email]).authenticate(create_params[:password])
+    @user = User.find_by(email: create_params[:email]).authenticate(create_params[:password])
 
     if @user
       render json: { token: @user.generate_jwt }

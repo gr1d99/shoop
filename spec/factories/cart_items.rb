@@ -1,8 +1,11 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :cart_item do
-    cart { nil }
-    product { nil }
-    price { "9.99" }
+    cart
+    product
     quantity { 1 }
+    amount { Faker::Number.unique.number digits: 3 }
+    sku { nil }
   end
 end

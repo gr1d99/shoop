@@ -12,7 +12,6 @@ RSpec.describe 'Cart', type: :request do
 
     it 'returns cart id' do
       expect(response.parsed_body['data']['id']).not_to be_nil
-
     end
 
     it 'returns user id' do

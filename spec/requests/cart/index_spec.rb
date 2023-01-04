@@ -3,7 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe 'Carts', type: :request do
-  before(:all) { FactoryBot.create_list(:cart, 10) }
+  let(:user) { create(:user) }
+
+  before(:all) { create_list(:cart, 10) }
 
   describe 'GET /carts' do
     context 'When unauthenticated' do
@@ -14,15 +16,23 @@ RSpec.describe 'Carts', type: :request do
       end
     end
 
-    before(:all) { get carts_path, headers: authorization_header }
+    context 'When authenticated' do
+      before do
+        Cart.find_in_batches(batch_size: 5) do |carts|
+          carts.each { |cart| cart.update(user: user) }
+        end
+      end
 
-    it 'returns status code 200' do
-      expect(response).to have_http_status :ok
-    end
+      before { get carts_path, headers: authorization_header(user.email) }
 
-    it 'returns all carts' do
-      expect(response.parsed_body['data'].count).to eql 10
-      expect(response.parsed_body['meta']['total']).to eql 10
+      it 'returns status code 200' do
+        expect(response).to have_http_status :ok
+      end
+
+      it 'returns all carts' do
+        expect(response.parsed_body['data'].count).to eql 10
+        expect(response.parsed_body['meta']['total']).to eql 10
+      end
     end
   end
 end

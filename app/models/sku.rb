@@ -7,5 +7,5 @@ class Sku < ApplicationRecord
   has_many :cart_items, dependent: :destroy, validate: true, inverse_of: :sku
 
   validates :sku_no, presence: true
-  validates_uniqueness_of :sku_no, { case_sensitive: true }
+  validates :sku_no, uniqueness: { case_sensitive: true }
 end

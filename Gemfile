@@ -27,7 +27,7 @@ group :development, :test do
   gem 'guard-rspec', require: false
   gem 'pry-rails'
   gem 'rspec-rails'
-  gem 'rubocop-rails'
+  gem 'rubocop-rails', require: false
   gem 'shoulda-matchers', '~> 4.0'
 end
 
