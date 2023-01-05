@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_12_23_090654) do
+ActiveRecord::Schema.define(version: 2023_01_05_020544) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 2022_12_23_090654) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["cart_id"], name: "index_cart_items_on_cart_id"
     t.index ["deleted_at"], name: "index_cart_items_on_deleted_at"
+    t.index ["product_id", "cart_id", "sku_id"], name: "index_items_on_product_id_and_cart_id_sku_id_and_deleted_at", unique: true, where: "(deleted_at IS NULL)"
     t.index ["product_id"], name: "index_cart_items_on_product_id"
     t.index ["sku_id"], name: "index_cart_items_on_sku_id"
   end
