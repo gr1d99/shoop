@@ -10,6 +10,6 @@
 
 ## Docs
 **ERD**
-![ERD IMAGE]()
+![ERD IMAGE](/docs/erd/erd.png)
 
 [SQS FILE](/docs/erd/erd.sqs)
