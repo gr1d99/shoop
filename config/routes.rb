@@ -5,6 +5,6 @@ Rails.application.routes.draw do
   resources :categories, only: %i[show create index]
   resources :products, only: %i[show index create]
   resources :carts, only: %i[create index] do
-    resources :cart_items, only: %i[index create], as: :items
+    resources :cart_items, as: :items
   end
 end

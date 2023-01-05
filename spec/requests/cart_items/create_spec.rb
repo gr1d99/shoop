@@ -3,7 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe 'POST /cart_items', type: :request do
-  let(:cart) { create(:cart) }
+  let(:user) { create :user }
+  let(:cart) { create :cart, user: user }
 
   context 'When unauthorized' do
     before { post cart_items_path(cart) }
@@ -21,7 +22,7 @@ RSpec.describe 'POST /cart_items', type: :request do
     end
 
     before do
-      post cart_items_path(cart), params: { cart_item: params }, headers: authorization_header
+      post cart_items_path(cart), params: { cart_item: params }, headers: authorization_header(user.email)
     end
 
     it 'returns status code 201' do
@@ -46,7 +47,7 @@ RSpec.describe 'POST /cart_items', type: :request do
     end
 
     before do
-      post cart_items_path(cart), params: { cart_item: params }, headers: authorization_header
+      post cart_items_path(cart), params: { cart_item: params }, headers: authorization_header(user.email)
     end
 
     it 'returns status code 201' do

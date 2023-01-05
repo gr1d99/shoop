@@ -12,8 +12,8 @@ RSpec.describe CartItem, type: :model do
 
     specify do
       should validate_uniqueness_of(:product_id)
-        .scoped_to(:sku_id, :cart_id)
-        .with_message('item already exist in cart')
+        .scoped_to(:cart_id, :sku_id, :deleted_at)
+        .with_message('Cart item already exist')
     end
   end
 
