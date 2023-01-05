@@ -20,7 +20,6 @@ class ProductsController < ApplicationController
     @sku = Sku.new(sku_params)
     @product.build_master master_variant_params.merge(sku: @sku)
     if @product.valid?
-      @sku.sku_no = nil
       @product.save!
       render json: ProductSerializer.new(@product), status: :created
     else

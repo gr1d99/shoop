@@ -2,6 +2,10 @@
 
 FactoryBot.define do
   factory :product do
+    transient do
+      variant_option_values { nil }
+    end
+
     name { Faker::Commerce.product_name }
     description { Faker::Lorem.sentence(word_count: 4) }
     meta { {} }
@@ -13,6 +17,12 @@ FactoryBot.define do
       variant = build(:master_variant)
       variant.product = product
       variant.save
+    end
+
+    trait :with_variant do
+      after(:create) do |product, evaluator|
+        create :variant, product: product, option_values: evaluator.variant_option_values
+      end
     end
 
     trait :with_image do

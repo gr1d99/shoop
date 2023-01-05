@@ -15,7 +15,7 @@ class Variant < ApplicationRecord
   has_many :option_values_variants, class_name: 'OptionValuesVariants', dependent: :destroy
   has_many :option_values, through: :option_values_variants
 
-  validates_uniqueness_of :sku_id
+  validates :sku_id, uniqueness: true
 
   with_options presence: true do
     validates :price

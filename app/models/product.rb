@@ -7,14 +7,15 @@ class Product < ApplicationRecord
 
   acts_as_paranoid
 
-  belongs_to :created_by, class_name: 'User', required: true
+  belongs_to :created_by, class_name: 'User', optional: false
 
-  belongs_to :brand, required: true
+  belongs_to :brand, optional: false
 
-  belongs_to :category, required: true
+  belongs_to :category, optional: false
 
   has_many :products_options, class_name: 'ProductsOptions', dependent: :destroy
   has_many :options, through: :products_options
+  has_many :cart_items, dependent: :destroy, inverse_of: :product
 
   has_one :master,
           -> { where(is_master: true).includes(:sku) },
