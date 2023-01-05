@@ -5,5 +5,5 @@
 
 ## Todo
 - [ ] Implement custom contracts using [dry-rb](https://dry-rb.org/)
-- [ ] Implement cart API
+- [x] Implement cart API
 - [ ] Implement orders API
