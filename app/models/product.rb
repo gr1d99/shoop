@@ -31,6 +31,8 @@ class Product < ApplicationRecord
 
   has_many :images, as: :imageable, dependent: :destroy
 
+  accepts_nested_attributes_for :master
+
   with_options presence: true do
     validates :name
     validates :description

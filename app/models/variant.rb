@@ -11,13 +11,11 @@ class Variant < ApplicationRecord
 
   belongs_to :product
   belongs_to :sku, validate: true
+  belongs_to :price, validate: true
 
   has_many :option_values_variants, class_name: 'OptionValuesVariants', dependent: :destroy
   has_many :option_values, through: :option_values_variants
 
   validates :sku_id, uniqueness: true
-
-  with_options presence: true do
-    validates :price
-  end
+  validates :price_id, uniqueness: { scope: :variant }
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_05_020544) do
+ActiveRecord::Schema.define(version: 2023_01_05_120817) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,11 +30,11 @@ ActiveRecord::Schema.define(version: 2023_01_05_020544) do
     t.bigint "cart_id", null: false
     t.bigint "product_id", null: false
     t.bigint "sku_id", null: false
-    t.decimal "amount", precision: 8, scale: 2
     t.integer "quantity", default: 1
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.decimal "amount", precision: 7, scale: 2
     t.index ["cart_id"], name: "index_cart_items_on_cart_id"
     t.index ["deleted_at"], name: "index_cart_items_on_deleted_at"
     t.index ["product_id", "cart_id", "sku_id"], name: "index_items_on_product_id_and_cart_id_sku_id_and_deleted_at", unique: true, where: "(deleted_at IS NULL)"
@@ -113,6 +113,27 @@ ActiveRecord::Schema.define(version: 2023_01_05_020544) do
     t.index ["deleted_at"], name: "index_options_on_deleted_at"
   end
 
+  create_table "order_items", force: :cascade do |t|
+    t.bigint "order_id", null: false
+    t.bigint "cart_item_id", null: false
+    t.decimal "amount", precision: 8, scale: 2, null: false
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["cart_item_id"], name: "index_order_items_on_cart_item_id"
+    t.index ["deleted_at"], name: "index_order_items_on_deleted_at"
+    t.index ["order_id"], name: "index_order_items_on_order_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.bigint "cart_id", null: false
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["cart_id"], name: "index_orders_on_cart_id"
+    t.index ["deleted_at"], name: "index_orders_on_deleted_at"
+  end
+
   create_table "products", force: :cascade do |t|
     t.string "slug"
     t.string "name"
@@ -163,13 +184,13 @@ ActiveRecord::Schema.define(version: 2023_01_05_020544) do
 
   create_table "variants", force: :cascade do |t|
     t.boolean "is_master", default: false
-    t.decimal "price", precision: 8, scale: 2
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "product_id", null: false
     t.datetime "deleted_at"
     t.string "slug", null: false
     t.bigint "sku_id", null: false
+    t.decimal "price", precision: 7, scale: 2
     t.index ["deleted_at"], name: "index_variants_on_deleted_at"
     t.index ["product_id"], name: "index_variants_on_product_id"
     t.index ["sku_id"], name: "index_variants_on_sku_id"
@@ -182,6 +203,9 @@ ActiveRecord::Schema.define(version: 2023_01_05_020544) do
   add_foreign_key "option_values", "options"
   add_foreign_key "option_values_variants", "option_values"
   add_foreign_key "option_values_variants", "variants"
+  add_foreign_key "order_items", "cart_items"
+  add_foreign_key "order_items", "orders"
+  add_foreign_key "orders", "carts"
   add_foreign_key "products", "brands"
   add_foreign_key "products", "categories"
   add_foreign_key "products_options", "options"
