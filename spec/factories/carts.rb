@@ -10,7 +10,7 @@ FactoryBot.define do
 
     trait :with_items do
       after(:create) do |cart, evaluator|
-        products = create_list(:product, evaluator.items_count)
+        products = create_list(:product, evaluator.items_count, :with_master)
         products.each do |product|
           create(:cart_item, cart: cart, product: product, sku: product.master.sku)
         end

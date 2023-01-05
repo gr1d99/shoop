@@ -39,4 +39,8 @@ class Product < ApplicationRecord
   end
 
   delegate :price, to: :master
+
+  def self.master
+    variants.where(is_master: true)
+  end
 end

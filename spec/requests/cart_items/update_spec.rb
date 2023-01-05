@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe 'PUT /cart_items/:id', type: :request do
   let(:user) { create :user }
   let(:cart) { create :cart, user: user }
-  let(:product) { create :product }
+  let(:product) { create :product, :with_master }
   let(:cart_item) { create :cart_item, cart: cart, sku: product.master.sku, product: product, amount: 100, quantity: 1 }
 
   context 'When unauthorized' do

@@ -7,4 +7,5 @@ Rails.application.routes.draw do
   resources :carts, only: %i[create index] do
     resources :cart_items, as: :items
   end
+  resources :variants, only: %i[index]
 end

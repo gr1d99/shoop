@@ -15,7 +15,7 @@ RSpec.describe 'POST /cart_items', type: :request do
   end
 
   context 'Without variants' do
-    let(:product) { create(:product) }
+    let(:product) { create(:product, :with_master) }
 
     let(:params) do
       { product_id: product.id, amount: product.price, quantity: 2, sku_id: product.master.sku_id }

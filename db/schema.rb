@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_05_120817) do
+ActiveRecord::Schema.define(version: 2023_01_05_182216) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -193,7 +193,7 @@ ActiveRecord::Schema.define(version: 2023_01_05_120817) do
     t.decimal "price", precision: 7, scale: 2
     t.index ["deleted_at"], name: "index_variants_on_deleted_at"
     t.index ["product_id"], name: "index_variants_on_product_id"
-    t.index ["sku_id"], name: "index_variants_on_sku_id"
+    t.index ["sku_id"], name: "index_variants_on_sku_id", unique: true
   end
 
   add_foreign_key "cart_items", "carts"

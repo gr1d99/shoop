@@ -13,10 +13,12 @@ FactoryBot.define do
     brand
     category
 
-    after(:create) do |product|
-      variant = build(:master_variant)
-      variant.product = product
-      variant.save
+    trait :with_master do
+      after(:create) do |product|
+        variant = build(:master_variant)
+        variant.product = product
+        variant.save
+      end
     end
 
     trait :with_variant do

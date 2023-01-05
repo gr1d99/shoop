@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe CartItem, type: :model do
   context 'Validations' do
-    let(:product) { create :product }
+    let(:product) { create :product, :with_master }
 
     before { create :cart_item, product_id: product.id, sku: product.master.sku }
 

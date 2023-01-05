@@ -16,14 +16,13 @@ class ProductsController < ApplicationController
   end
 
   def create
-    @product = Product.new product_params.merge(created_by_id: current_user.id)
-    @sku = Sku.new(sku_params)
-    @product.build_master master_variant_params.merge(sku: @sku)
+    @product = Product.new product_params
+
     if @product.valid?
       @product.save!
       render json: ProductSerializer.new(@product), status: :created
     else
-      render jsonapi_errors: @product.errors, status: :unprocessable_entity
+      render json: @product.errors, status: :unprocessable_entity
     end
   end
 
@@ -34,7 +33,8 @@ class ProductsController < ApplicationController
   end
 
   def product_params
-    params.require(:product).permit(:name, :description, :brand_id, :category_id)
+    params.require(:product).permit(:name, :description, :brand_id, :category_id, master_attributes: {})
+          .merge(created_by_id: current_user.id)
   end
 
   def master_variant_params
