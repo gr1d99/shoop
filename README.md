@@ -7,3 +7,9 @@
 - [ ] Implement custom contracts using [dry-rb](https://dry-rb.org/)
 - [x] Implement cart API
 - [ ] Implement orders API
+
+## Docs
+**ERD**
+![ERD IMAGE]()
+
+[SQS FILE](/docs/erd/erd.sqs)
