@@ -8,4 +8,5 @@ Rails.application.routes.draw do
     resources :cart_items, as: :items
   end
   resources :variants, only: %i[index]
+  resources :sku, only: %i[index create], as: :sku
 end

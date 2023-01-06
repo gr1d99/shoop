@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_05_182216) do
+ActiveRecord::Schema.define(version: 2023_01_06_040540) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -161,12 +161,12 @@ ActiveRecord::Schema.define(version: 2023_01_05_182216) do
   end
 
   create_table "skus", force: :cascade do |t|
-    t.string "sku_no", null: false
+    t.string "value", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "deleted_at"
     t.index ["deleted_at"], name: "index_skus_on_deleted_at"
-    t.index ["sku_no"], name: "index_skus_on_sku_no"
+    t.index ["value"], name: "index_skus_on_value", unique: true
   end
 
   create_table "users", force: :cascade do |t|

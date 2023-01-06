@@ -10,7 +10,7 @@ RSpec.describe Sku, type: :model do
   context 'Validations' do
     before { FactoryBot.create(:sku) }
 
-    specify { should validate_presence_of(:sku_no) }
-    specify { should validate_uniqueness_of(:sku_no) }
+    specify { should validate_presence_of(:value) }
+    specify { should validate_uniqueness_of(:value) }
   end
 end
