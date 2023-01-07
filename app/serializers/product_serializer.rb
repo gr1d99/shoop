@@ -3,12 +3,7 @@
 class ProductSerializer
   include JSONAPI::Serializer
 
-  attributes :slug,
-             :brand_id,
-             :category_id,
-             :name,
-             :description,
-             :meta
+  attributes :slug, :brand_id, :category_id, :name, :description, :meta
   attribute :images do |object|
     object.images.map { |image| { id: image.id, name: image.name, alt: image.alt, url: image.image_url } }
   end

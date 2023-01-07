@@ -7,5 +7,5 @@ class VariantSerializer
   belongs_to :sku
   has_many :option_values
 
-  attributes :is_master, :price, :product_id, :sku_id
+  attributes :product_id, :sku_id, :is_master, :price, :stock
 end

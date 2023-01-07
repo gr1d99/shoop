@@ -16,4 +16,5 @@ class Variant < ApplicationRecord
   has_many :option_values, through: :option_values_variants
 
   validates :sku_id, uniqueness: true
+  validates :stock, numericality: { greater_than_or_equal_to: 0 }
 end

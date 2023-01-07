@@ -3,5 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe Variant, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let(:product) { create :product }
+  let(:subject) { create :variant, product: product }
+
+  context 'Validations' do
+    specify { should validate_numericality_of(:stock) }
+  end
 end

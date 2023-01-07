@@ -18,7 +18,7 @@ class Product < ApplicationRecord
   has_many :cart_items, dependent: :destroy, inverse_of: :product
 
   has_one :master,
-          -> { where(is_master: true).includes(:sku) },
+          -> { where(is_master: true) },
           class_name: 'Variant',
           dependent: :destroy,
           inverse_of: :product,
@@ -39,8 +39,4 @@ class Product < ApplicationRecord
   end
 
   delegate :price, to: :master
-
-  def self.master
-    variants.where(is_master: true)
-  end
 end

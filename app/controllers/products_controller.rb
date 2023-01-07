@@ -33,15 +33,8 @@ class ProductsController < ApplicationController
   end
 
   def product_params
-    params.require(:product).permit(:name, :description, :brand_id, :category_id, master_attributes: {})
+    params.require(:product)
+          .permit(:name, :description, :brand_id, :category_id, :stock, master_attributes: {})
           .merge(created_by_id: current_user.id)
-  end
-
-  def master_variant_params
-    params.require(:product).permit(:price)
-  end
-
-  def sku_params
-    params.require(:product).permit(:sku_no)
   end
 end

@@ -25,7 +25,7 @@ class CartItemsController < ApplicationController
       @cart_item.save!
       render json: CartItemSerializer.new(@cart_item), status: :created
     else
-      render jsonapi_errors: @cart_item.errors, status: :unprocessable_entity
+      render json: @cart_item.errors, status: :unprocessable_entity
     end
   end
 
