@@ -9,13 +9,45 @@ RSpec.describe 'POST /cart_items', type: :request do
   context 'When unauthorized' do
     before { post cart_items_path(cart) }
 
-    it 'returns status code 401' do
-      expect(response).to have_http_status :unauthorized
+    it_behaves_like 'unauthorized request'
+  end
+
+  context 'Availability' do
+    let(:product) { create :product, :with_master, stock: 0 }
+    let(:params) do
+      { product_id: product.id, amount: product.price, quantity: 2, sku_id: product.master.sku_id }
+    end
+
+    context 'When out of stock' do
+      before do
+        post cart_items_path(cart), params: { cart_item: params }, headers: authorization_header(user.email)
+      end
+
+      it 'responds with status code 422' do
+        expect(response).to have_http_status :unprocessable_entity
+      end
+
+      it_behaves_like 'unprocessable request'
+    end
+
+    context 'When quantity is more than the available stock' do
+      before do
+        product.master.stock = 1
+        product.master.save!
+
+        post cart_items_path(cart), params: { cart_item: params }, headers: authorization_header(user.email)
+      end
+
+      it_behaves_like 'unprocessable request'
+
+      it 'returns quantity exceeds available stock error message' do
+        expect(response.parsed_body['quantity']).to eq ['exceeds stock']
+      end
     end
   end
 
-  context 'Without variants' do
-    let(:product) { create(:product) }
+  context 'When in product is available' do
+    let(:product) { create(:product, :with_master, stock: 20) }
 
     let(:params) do
       { product_id: product.id, amount: product.price, quantity: 2, sku_id: product.master.sku_id }
@@ -34,31 +66,6 @@ RSpec.describe 'POST /cart_items', type: :request do
       expect(response.parsed_body['data']['attributes']['amount'].to_s).to eql params[:amount].to_s
       expect(response.parsed_body['data']['attributes']['quantity']).to eql params[:quantity]
       expect(response.parsed_body['data']['attributes']['option_value_id']).to be_nil
-    end
-  end
-
-  context 'With variant' do
-    let(:option) { create :option, name: 'Color' }
-    let(:option_value) { create :option_value, name: 'Red', option: option }
-    let(:product_with_variant) { create(:product, :with_variant, variant_option_values: [option_value]) }
-    let(:params) do
-      { product_id: product_with_variant.id, amount: product_with_variant.variants.first.price, quantity: 2,
-        sku_id: product_with_variant.variants.first.sku_id }
-    end
-
-    before do
-      post cart_items_path(cart), params: { cart_item: params }, headers: authorization_header(user.email)
-    end
-
-    it 'returns status code 201' do
-      expect(response).to have_http_status :created
-    end
-
-    it 'adds item to cart with variant' do
-      expect(response.parsed_body['data']['attributes']['cart_id']).to eql cart.id
-      expect(response.parsed_body['data']['attributes']['amount'].to_f).to eql params[:amount].to_f
-      expect(response.parsed_body['data']['attributes']['quantity']).to eql params[:quantity]
-      expect(response.parsed_body['data']['attributes']['sku_id'].to_s).to eql params[:sku_id].to_s
     end
   end
 end

@@ -11,5 +11,7 @@ class CartItem < ApplicationRecord
   validates :amount, presence: true
   validates_uniqueness_of_without_deleted :product_id,
                                           scope: %i[cart_id sku_id deleted_at],
-                                          message: 'Cart item already exist'
+                                          message: :taken
+  validates :quantity, numericality: { greater_than_or_equal_to: 0 }
+  validates :quantity, in_stock: true, if: proc { |item| item.sku.present? }
 end

@@ -5,6 +5,7 @@ FactoryBot.define do
     sku
     is_master { false }
     price { '9.99' }
+    product { nil }
 
     factory :master_variant do
       is_master { true }

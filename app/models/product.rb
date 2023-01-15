@@ -18,7 +18,7 @@ class Product < ApplicationRecord
   has_many :cart_items, dependent: :destroy, inverse_of: :product
 
   has_one :master,
-          -> { where(is_master: true).includes(:sku) },
+          -> { where(is_master: true) },
           class_name: 'Variant',
           dependent: :destroy,
           inverse_of: :product,
@@ -30,6 +30,8 @@ class Product < ApplicationRecord
            validate: true
 
   has_many :images, as: :imageable, dependent: :destroy
+
+  accepts_nested_attributes_for :master
 
   with_options presence: true do
     validates :name

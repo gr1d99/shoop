@@ -5,8 +5,8 @@ class User < ApplicationRecord
 
   has_secure_password
 
-  has_many :products, foreign_key: :created_by_id, dependent: :destroy
-  has_many :carts, inverse_of: :user
+  has_many :products, foreign_key: :created_by_id, dependent: :destroy, inverse_of: :user
+  has_many :carts, inverse_of: :user, dependent: :destroy
 
   with_options presence: true do
     validates :first_name

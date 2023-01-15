@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :cart_item do
-    cart
+    cart { nil }
     product { nil }
     quantity { 1 }
     amount { Faker::Number.unique.number digits: 3 }

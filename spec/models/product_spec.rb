@@ -18,7 +18,7 @@ RSpec.describe Product, type: :model do
   end
 
   context 'Pricing' do
-    let(:product) { create(:product) }
+    let(:product) { create(:product, :with_master) }
 
     it 'sets default price from master variant' do
       expect(product.price).not_to be_nil

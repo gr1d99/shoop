@@ -4,8 +4,8 @@
         <name><![CDATA[carts]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>703.00</x>
-            <y>322.00</y>
+            <x>625.00</x>
+            <y>20.00</y>
         </location>
         <size>
             <width>201.00</width>
@@ -14,7 +14,7 @@
         <zorder>0</zorder>
         <SQLField>
             <name><![CDATA[id]]></name>
-            <type><![CDATA[INTEGER]]></type>
+            <type><![CDATA[SERIAL]]></type>
             <primaryKey>1</primaryKey>
             <autoIncrement><![CDATA[1]]></autoIncrement>
             <forcedUnique><![CDATA[1]]></forcedUnique>
@@ -42,8 +42,8 @@
         <name><![CDATA[product_options]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>57.00</x>
-            <y>450.00</y>
+            <x>15.00</x>
+            <y>401.00</y>
         </location>
         <size>
             <width>201.00</width>
@@ -92,12 +92,12 @@
         <name><![CDATA[order_items]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>961.00</x>
-            <y>319.00</y>
+            <x>1025.00</x>
+            <y>127.00</y>
         </location>
         <size>
             <width>201.00</width>
-            <height>60.00</height>
+            <height>80.00</height>
         </size>
         <zorder>11</zorder>
         <SQLField>
@@ -123,18 +123,23 @@
             <referencesTableUID><![CDATA[76E88252-5758-410F-BA8C-6754AD94FFCD]]></referencesTableUID>
             <uid><![CDATA[03A61E2D-EB28-43C1-99FF-7D8E20DB9D22]]></uid>
         </SQLField>
+        <SQLField>
+            <name><![CDATA[amount]]></name>
+            <type><![CDATA[DECIMAL]]></type>
+            <uid><![CDATA[03CD73CF-8790-4A96-8277-683CD17C1825]]></uid>
+        </SQLField>
         <uid><![CDATA[1A49EB72-C1E4-4E3E-9439-386D69753BF3]]></uid>
     </SQLTable>
     <SQLTable>
         <name><![CDATA[users]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>320.00</x>
-            <y>322.00</y>
+            <x>325.00</x>
+            <y>40.00</y>
         </location>
         <size>
             <width>201.00</width>
-            <height>40.00</height>
+            <height>60.00</height>
         </size>
         <zorder>1</zorder>
         <SQLField>
@@ -148,18 +153,23 @@
             <uid><![CDATA[D8705287-7CC7-41ED-9758-B93DD62F0A8D]]></uid>
             <unique><![CDATA[1]]></unique>
         </SQLField>
+        <SQLField>
+            <name><![CDATA[configuration_id]]></name>
+            <type><![CDATA[INTEGER]]></type>
+            <uid><![CDATA[CF247C5E-773D-4A8E-838E-5E2EA63638A7]]></uid>
+        </SQLField>
         <uid><![CDATA[2C2E0278-4B25-4104-9F39-1D0BDD50CA45]]></uid>
     </SQLTable>
     <SQLTable>
         <name><![CDATA[variants]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>321.00</x>
-            <y>512.00</y>
+            <x>584.00</x>
+            <y>576.00</y>
         </location>
         <size>
             <width>201.00</width>
-            <height>40.00</height>
+            <height>80.00</height>
         </size>
         <zorder>5</zorder>
         <SQLField>
@@ -173,14 +183,32 @@
             <uid><![CDATA[DF8A2B82-E526-4D5A-8E0B-76B63F83633F]]></uid>
             <unique><![CDATA[1]]></unique>
         </SQLField>
+        <SQLField>
+            <name><![CDATA[price_id]]></name>
+            <type><![CDATA[INTEGER]]></type>
+            <uid><![CDATA[2521A93B-0452-487A-BCA7-73C4A1DCEC6F]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[product_id]]></name>
+            <type><![CDATA[INTEGER]]></type>
+            <referencesField>id</referencesField>
+            <referencesTable>products</referencesTable>
+            <referencesField><![CDATA[id]]></referencesField>
+            <referencesTable><![CDATA[products]]></referencesTable>
+            <sourceCardinality>3</sourceCardinality>
+            <destinationCardinality>1</destinationCardinality>
+            <referencesFieldUID><![CDATA[216BF05D-2811-486A-9988-B1B4E22FC2EA]]></referencesFieldUID>
+            <referencesTableUID><![CDATA[59437A1F-AE3C-4A60-A435-56C4BF9D6035]]></referencesTableUID>
+            <uid><![CDATA[9E8425E1-9644-4CA4-A74B-0E2BFAEF68E7]]></uid>
+        </SQLField>
         <uid><![CDATA[48080FBD-27DB-4AE8-B150-CE862A9CCEA1]]></uid>
     </SQLTable>
     <SQLTable>
         <name><![CDATA[products]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>320.00</x>
-            <y>384.00</y>
+            <x>382.00</x>
+            <y>420.00</y>
         </location>
         <size>
             <width>201.00</width>
@@ -204,8 +232,8 @@
         <name><![CDATA[orders]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>961.00</x>
-            <y>191.00</y>
+            <x>997.00</x>
+            <y>0.00</y>
         </location>
         <size>
             <width>182.00</width>
@@ -241,8 +269,8 @@
         <name><![CDATA[cart_items]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>703.00</x>
-            <y>450.00</y>
+            <x>633.00</x>
+            <y>127.00</y>
         </location>
         <size>
             <width>201.00</width>
@@ -300,8 +328,8 @@
             <uid><![CDATA[89C36D7C-F186-413D-92B0-8633FD026ADD]]></uid>
         </SQLField>
         <SQLField>
-            <name><![CDATA[amount]]></name>
-            <type><![CDATA[DECIMAL]]></type>
+            <name><![CDATA[amount_id]]></name>
+            <type><![CDATA[SERIAL]]></type>
             <uid><![CDATA[5559614E-194D-438A-814B-1480C1A1D932]]></uid>
         </SQLField>
         <uid><![CDATA[7FE5B8B3-3454-49AC-8175-ABB40AED957C]]></uid>
@@ -310,8 +338,8 @@
         <name><![CDATA[option_values_variants]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>321.00</x>
-            <y>579.00</y>
+            <x>294.00</x>
+            <y>556.00</y>
         </location>
         <size>
             <width>201.00</width>
@@ -360,8 +388,8 @@
         <name><![CDATA[option_values]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>380.00</x>
-            <y>708.00</y>
+            <x>308.00</x>
+            <y>745.00</y>
         </location>
         <size>
             <width>201.00</width>
@@ -404,8 +432,8 @@
         <name><![CDATA[skus]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>706.00</x>
-            <y>581.00</y>
+            <x>833.00</x>
+            <y>319.00</y>
         </location>
         <size>
             <width>201.00</width>
@@ -429,8 +457,8 @@
         <name><![CDATA[options]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>55.00</x>
-            <y>708.00</y>
+            <x>1.00</x>
+            <y>705.00</y>
         </location>
         <size>
             <width>201.00</width>
@@ -478,7 +506,7 @@
         <windowHeight><![CDATA[1016.000000]]></windowHeight>
         <windowLocationX><![CDATA[1440.000000]]></windowLocationX>
         <windowLocationY><![CDATA[-80.000000]]></windowLocationY>
-        <windowScrollOrigin><![CDATA[{0, 46}]]></windowScrollOrigin>
+        <windowScrollOrigin><![CDATA[{0, 0}]]></windowScrollOrigin>
         <windowWidth><![CDATA[1920.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>

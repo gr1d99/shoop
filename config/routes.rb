@@ -6,5 +6,8 @@ Rails.application.routes.draw do
   resources :products, only: %i[show index create]
   resources :carts, only: %i[create index] do
     resources :cart_items, as: :items
+    resources :orders, only: :create, shallow: true
   end
+  resources :variants, only: %i[index]
+  resources :sku, only: %i[index create], as: :sku
 end
