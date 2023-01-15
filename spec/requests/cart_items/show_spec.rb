@@ -2,10 +2,10 @@
 
 require 'rails_helper'
 
-RSpec.describe 'GET /cart_items/:id', type: :request do
+RSpec.describe 'GET /cart/:cart_id/items/:id', type: :request do
   let(:user) { create :user }
   let(:cart) { create :cart, user: user }
-  let(:product) { create :product, :with_master }
+  let(:product) { create :product, :with_master, stock: 10 }
   let(:cart_item) { create :cart_item, cart: cart, sku: product.master.sku, product: product, amount: 100, quantity: 1 }
 
   context 'When unauthorized' do
@@ -16,7 +16,7 @@ RSpec.describe 'GET /cart_items/:id', type: :request do
     end
   end
 
-  context 'When authorized' do
+  describe 'When authorized' do
     context 'And is not owner of cart' do
       before do
         get cart_item_path(cart, cart_item), headers: authorization_header

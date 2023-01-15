@@ -42,3 +42,7 @@ en:
               :taken: 'exists in cart'
             quantity:
               :quantity_unavailable: 'exceeds stock'
+        order:
+          attributes:
+            cart_id:
+              blank: 'must exist'

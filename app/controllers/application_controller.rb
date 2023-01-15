@@ -19,6 +19,18 @@ class ApplicationController < ActionController::API
     end
   end
 
+  def ensure_cart_owner!
+    id = params[:cart_id] || params[:id]
+    cart = Cart.find id
+
+    unless cart.send(:user)&.id.eql? current_user&.id
+      raise ActiveRecord::RecordNotFound
+        .new(nil, Cart, id, nil)
+    end
+
+    @cart = cart
+  end
+
   attr_reader :current_user
 
   def record_not_found(exception)

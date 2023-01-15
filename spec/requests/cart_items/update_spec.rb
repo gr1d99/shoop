@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe 'PUT /cart_items/:id', type: :request do
   let(:user) { create :user }
   let(:cart) { create :cart, user: user }
-  let(:product) { create :product, :with_master }
+  let(:product) { create :product, :with_master, stock: 10 }
   let(:cart_item) { create :cart_item, cart: cart, sku: product.master.sku, product: product, amount: 100, quantity: 1 }
 
   context 'When unauthorized' do
@@ -33,7 +33,10 @@ RSpec.describe 'PUT /cart_items/:id', type: :request do
 
     context 'And is owner of cart' do
       before do
-        put cart_item_path(cart, cart_item), params: { cart_item: params }, headers: authorization_header(user.email)
+        cart.items << cart_item
+        put cart_item_path(cart, cart.items.first),
+            params: { cart_item: params },
+            headers: authorization_header(cart.user.email)
       end
 
       it 'returns status code 200' do

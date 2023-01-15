@@ -5,6 +5,7 @@ FactoryBot.define do
     transient do
       variant_option_values { nil }
     end
+
     transient do
       stock { 0 }
     end

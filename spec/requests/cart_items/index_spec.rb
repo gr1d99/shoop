@@ -2,9 +2,9 @@
 
 require 'rails_helper'
 
-RSpec.describe '/GET Cart/:CartId/CartItems', type: :request do
+RSpec.describe '/GET /cart/:id/items', type: :request do
   let(:current_user) { create :user, email: 'current@mail.com' }
-  let(:cart) { create(:cart, :with_items, items_count: 2, user: current_user) }
+  let(:cart) { create(:cart, :with_items, items_count: 2, items_stock: 2, user: current_user) }
 
   context 'When unauthorized' do
     before { get cart_items_path(cart) }
