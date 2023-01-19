@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_15_025033) do
+ActiveRecord::Schema.define(version: 2023_01_19_031404) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,11 +30,11 @@ ActiveRecord::Schema.define(version: 2023_01_15_025033) do
     t.bigint "cart_id", null: false
     t.bigint "product_id", null: false
     t.bigint "sku_id", null: false
+    t.decimal "amount", precision: 8, scale: 2
     t.integer "quantity", default: 1
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.decimal "amount", precision: 7, scale: 2
     t.index ["cart_id"], name: "index_cart_items_on_cart_id"
     t.index ["deleted_at"], name: "index_cart_items_on_deleted_at"
     t.index ["product_id", "cart_id", "sku_id"], name: "index_items_on_product_id_and_cart_id_sku_id_and_deleted_at", unique: true, where: "(deleted_at IS NULL)"
@@ -130,8 +130,23 @@ ActiveRecord::Schema.define(version: 2023_01_15_025033) do
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "status"
     t.index ["cart_id"], name: "index_orders_on_cart_id"
     t.index ["deleted_at"], name: "index_orders_on_deleted_at"
+  end
+
+  create_table "orders_payment_methods", force: :cascade do |t|
+    t.bigint "order_id"
+    t.bigint "payment_method_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "payment_methods", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "products", force: :cascade do |t|
@@ -185,13 +200,13 @@ ActiveRecord::Schema.define(version: 2023_01_15_025033) do
 
   create_table "variants", force: :cascade do |t|
     t.boolean "is_master", default: false
+    t.decimal "price", precision: 8, scale: 2
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "product_id", null: false
     t.datetime "deleted_at"
     t.string "slug", null: false
     t.bigint "sku_id", null: false
-    t.decimal "price", precision: 7, scale: 2
     t.integer "stock", default: 0
     t.index ["deleted_at"], name: "index_variants_on_deleted_at"
     t.index ["product_id"], name: "index_variants_on_product_id"

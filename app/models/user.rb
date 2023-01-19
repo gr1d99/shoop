@@ -5,7 +5,7 @@ class User < ApplicationRecord
 
   has_secure_password
 
-  has_many :products, foreign_key: :created_by_id, dependent: :destroy, inverse_of: :user
+  has_many :products, foreign_key: :created_by_id, dependent: :destroy, inverse_of: :created_by
   has_many :carts, inverse_of: :user, dependent: :destroy
 
   with_options presence: true do
@@ -15,6 +15,13 @@ class User < ApplicationRecord
     validates :phone, uniqueness: true
     validates :password
   end
+
+  # Custom queries
+  def orders
+    Order.includes(cart: :user).where({ carts: { user_id: id } })
+  end
+
+  private
 
   def generate_jwt
     JWT.encode({ identity: email, exp: 7.days.from_now.to_i }, Rails.application.secrets.secret_key_base)

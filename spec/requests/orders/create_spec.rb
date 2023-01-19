@@ -5,6 +5,7 @@ require 'rails_helper'
 RSpec.describe 'POST /orders', type: :request do
   let(:user) { create :user }
   let(:cart) { create :cart, user: user }
+  let(:payment_method) { create :payment_method, name: 'Pay on Delivery' }
 
   context 'When unauthorized' do
     before { post cart_orders_path(cart), params: {} }
@@ -40,14 +41,16 @@ RSpec.describe 'POST /orders', type: :request do
     before do
       cart.items << cart_item
 
-      post cart_orders_path(cart), params: {}, headers: authorization_header(user.email)
+      post cart_orders_path(cart), params: { order: { payment_method_id: payment_method.id } },
+                                   headers: authorization_header(user.email)
     end
 
     it_behaves_like 'created resource request'
 
     it 'returns cart data' do
       expect(response.parsed_body['data']['type']).to eq 'order'
-      expect(response.parsed_body['data']['attributes']['cart_id']).to eq cart.id
+      expect(response.parsed_body['data']['attributes']['cart_id']).to eql cart.id
+      expect(response.parsed_body['data']['attributes']['status']).to eql 'pending'
       expect(response.parsed_body['data']['relationships']['items'].size).to eq cart.items.size
     end
   end

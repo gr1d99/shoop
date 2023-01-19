@@ -7,7 +7,7 @@ class Product < ApplicationRecord
 
   acts_as_paranoid
 
-  belongs_to :created_by, class_name: 'User', optional: false
+  belongs_to :created_by, class_name: 'User', optional: false, inverse_of: :products
 
   belongs_to :brand, optional: false
 
