@@ -11,7 +11,6 @@ class OrdersController < ApplicationController
 
   def create
     @order = @cart.build_order
-    @order.payment_method = PaymentMethod.find_by id: create_params[:payment_method_id]
     order_item_attrs = @order.cart.items.select('id as cart_item_id, amount').map(&:attributes)
     @order.items.build order_item_attrs
 
@@ -29,15 +28,5 @@ class OrdersController < ApplicationController
     else
       render @order.errors, status: :unprocessable_entity
     end
-  end
-
-  private
-
-  def create_params
-    params.require(:order).permit(:payment_method_id, :status).except(:status)
-  end
-
-  def ensure_order_owner!
-    @order = @current_user.orders.find(params[:id])
   end
 end

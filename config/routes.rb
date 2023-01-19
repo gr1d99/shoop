@@ -11,5 +11,7 @@ Rails.application.routes.draw do
   resources :variants, only: %i[index]
   resources :sku, only: %i[index create], as: :sku
   resources :payment_methods, only: :index
-  resources :orders, only: :show
+  resources :orders, only: :show do
+    resources :orders_payment_methods, only: :create, as: :payment_methods
+  end
 end
