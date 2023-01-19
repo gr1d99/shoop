@@ -16,7 +16,7 @@ module Auth
       payload = HashWithIndifferentAccess.new decoded[0]
       identity = payload[:identity]
       query_h = { identity_field.to_s => identity }
-      user ||= identity_klass.find_by!(query_h)
+      user = identity_klass.find_by!(query_h)
       block.call user if block_given?
     rescue ::JWT::ExpiredSignature
       raise JwtTokenExpired

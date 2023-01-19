@@ -3,7 +3,7 @@
 class Cart < ApplicationRecord
   acts_as_paranoid
 
-  belongs_to :user, optional: false
+  belongs_to :user
   has_one :order, dependent: :destroy
   has_many :items,
            class_name: 'CartItem',
