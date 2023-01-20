@@ -8,7 +8,9 @@ class OrdersPaymentMethodsController < ApplicationController
     @order_payment_method = @order.build_orders_payment_methods create_params
 
     if @order_payment_method.valid?
-      @order_payment_method.save
+      @order_payment_method.save!
+      @order.reload
+      @order.process_payment!
 
       render json: @order_payment_method, status: :created
     else
