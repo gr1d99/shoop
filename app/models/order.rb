@@ -11,6 +11,7 @@ class Order < ApplicationRecord
   acts_as_paranoid
 
   belongs_to :cart
+  belongs_to :shipping_address
   has_one :orders_payment_methods, class_name: 'OrdersPaymentMethod', dependent: :destroy
   has_one :payment_method, through: :orders_payment_methods
 

@@ -10,7 +10,7 @@ class OrdersController < ApplicationController
   end
 
   def create
-    @order = @cart.build_order
+    @order = @cart.build_order order_params
     order_item_attrs = @order.cart.items.select('id as cart_item_id, amount').map(&:attributes)
     @order.items.build order_item_attrs
 
@@ -28,5 +28,9 @@ class OrdersController < ApplicationController
     else
       render @order.errors, status: :unprocessable_entity
     end
+  end
+
+  def order_params
+    params.require(:order).permit(:shipping_address_id)
   end
 end

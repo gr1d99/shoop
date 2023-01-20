@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_20_041929) do
+ActiveRecord::Schema.define(version: 2023_01_20_141624) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,6 +64,7 @@ ActiveRecord::Schema.define(version: 2023_01_20_041929) do
 
   create_table "counties", force: :cascade do |t|
     t.string "name"
+    t.integer "code"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -137,8 +138,10 @@ ActiveRecord::Schema.define(version: 2023_01_20_041929) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "status"
+    t.bigint "shipping_address_id", null: false
     t.index ["cart_id"], name: "index_orders_on_cart_id"
     t.index ["deleted_at"], name: "index_orders_on_deleted_at"
+    t.index ["shipping_address_id"], name: "index_orders_on_shipping_address_id"
   end
 
   create_table "orders_payment_methods", force: :cascade do |t|
@@ -202,14 +205,14 @@ ActiveRecord::Schema.define(version: 2023_01_20_041929) do
     t.string "first_name"
     t.string "last_name"
     t.string "phone"
-    t.bigint "county_id", null: false
+    t.bigint "user_id", null: false
     t.bigint "town_id", null: false
     t.text "description"
-    t.boolean "is_default"
+    t.boolean "is_default", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["county_id"], name: "index_shipping_addresses_on_county_id"
     t.index ["town_id"], name: "index_shipping_addresses_on_town_id"
+    t.index ["user_id"], name: "index_shipping_addresses_on_user_id"
   end
 
   create_table "skus", force: :cascade do |t|
@@ -268,6 +271,7 @@ ActiveRecord::Schema.define(version: 2023_01_20_041929) do
   add_foreign_key "order_items", "cart_items"
   add_foreign_key "order_items", "orders"
   add_foreign_key "orders", "carts"
+  add_foreign_key "orders", "shipping_addresses"
   add_foreign_key "orders_payment_methods", "orders"
   add_foreign_key "orders_payment_methods", "payment_methods"
   add_foreign_key "payments_payment_methods", "payment_methods"
@@ -276,8 +280,8 @@ ActiveRecord::Schema.define(version: 2023_01_20_041929) do
   add_foreign_key "products", "categories"
   add_foreign_key "products_options", "options"
   add_foreign_key "products_options", "products"
-  add_foreign_key "shipping_addresses", "counties"
   add_foreign_key "shipping_addresses", "towns"
+  add_foreign_key "shipping_addresses", "users"
   add_foreign_key "towns", "counties"
   add_foreign_key "variants", "products"
   add_foreign_key "variants", "skus"

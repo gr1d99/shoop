@@ -1,5 +1,9 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Town, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  context 'Validations' do
+    specify { should validate_presence_of(:name) }
+  end
 end

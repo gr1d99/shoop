@@ -7,6 +7,14 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 ActiveRecord::Base.transaction do
+  User.destroy_all
+  Product.destroy_all
+  Category.destroy_all
+  Brand.destroy_all
+  Order.destroy_all
+  Town.destroy_all
+  County.destroy_all
+
   user = User.create(
     first_name: 'test',
     last_name: 'user',
@@ -40,5 +48,14 @@ ActiveRecord::Base.transaction do
 
   ['Pay on Delivery', 'Credit Card'].each do |payment_method|
     PaymentMethod.create name: payment_method.to_s, description: "For #{payment_method.to_s} orders"
+  end
+
+  counties = JSON.parse File.read('./db/data/ke/county_towns.json')
+  counties.keys.each do |county|
+    county = County.create name: county
+
+    counties[county.name].each do |town|
+      Town.create name: town, county: county
+    end
   end
 end

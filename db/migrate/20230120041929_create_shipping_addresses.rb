@@ -4,10 +4,10 @@ class CreateShippingAddresses < ActiveRecord::Migration[6.0]
       t.string :first_name
       t.string :last_name
       t.string :phone
-      t.references :county, null: false, foreign_key: true
+      t.references :user, null: false, foreign_key: true
       t.references :town, null: false, foreign_key: true
       t.text :description
-      t.boolean :is_default
+      t.boolean :is_default, default: false
 
       t.timestamps
     end
