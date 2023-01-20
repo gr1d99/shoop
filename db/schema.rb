@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_19_042455) do
+ActiveRecord::Schema.define(version: 2023_01_20_041929) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,6 +60,12 @@ ActiveRecord::Schema.define(version: 2023_01_19_042455) do
     t.datetime "deleted_at"
     t.text "description", default: ""
     t.index ["deleted_at"], name: "index_categories_on_deleted_at"
+  end
+
+  create_table "counties", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -192,6 +198,20 @@ ActiveRecord::Schema.define(version: 2023_01_19_042455) do
     t.index ["product_id"], name: "index_products_options_on_product_id"
   end
 
+  create_table "shipping_addresses", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "phone"
+    t.bigint "county_id", null: false
+    t.bigint "town_id", null: false
+    t.text "description"
+    t.boolean "is_default"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["county_id"], name: "index_shipping_addresses_on_county_id"
+    t.index ["town_id"], name: "index_shipping_addresses_on_town_id"
+  end
+
   create_table "skus", force: :cascade do |t|
     t.string "value", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -199,6 +219,14 @@ ActiveRecord::Schema.define(version: 2023_01_19_042455) do
     t.datetime "deleted_at"
     t.index ["deleted_at"], name: "index_skus_on_deleted_at"
     t.index ["value"], name: "index_skus_on_value", unique: true
+  end
+
+  create_table "towns", force: :cascade do |t|
+    t.string "name"
+    t.bigint "county_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["county_id"], name: "index_towns_on_county_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -248,6 +276,9 @@ ActiveRecord::Schema.define(version: 2023_01_19_042455) do
   add_foreign_key "products", "categories"
   add_foreign_key "products_options", "options"
   add_foreign_key "products_options", "products"
+  add_foreign_key "shipping_addresses", "counties"
+  add_foreign_key "shipping_addresses", "towns"
+  add_foreign_key "towns", "counties"
   add_foreign_key "variants", "products"
   add_foreign_key "variants", "skus"
 end

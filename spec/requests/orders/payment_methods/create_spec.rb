@@ -46,22 +46,20 @@ RSpec.describe 'POST /orders/:order_id/payment_methods', type: :request do
     it_behaves_like 'created resource request'
   end
 
-  context 'Order status' do
-    context ' When pay on delivery' do
-      let(:params) do
-        {
-          order_payment_method: {
-            payment_method_id: payment_method.id
-          }
+  context ' When pay on delivery' do
+    let(:params) do
+      {
+        order_payment_method: {
+          payment_method_id: payment_method.id
         }
-      end
+      }
+    end
 
-      it "transitions from 'pending' -> 'packaging'" do
-        expect do
-          post order_payment_methods_path(order), params: params, headers: authorization_header(user.email)
-          order.reload
-        end.to change { order.status }.from('pending').to('order_packaging')
-      end
+    it "transitions from 'pending' -> 'order_packaging'" do
+      expect do
+        post order_payment_methods_path(order), params: params, headers: authorization_header(user.email)
+        order.reload
+      end.to change { order.status }.from('pending').to('order_packaging')
     end
   end
 end
