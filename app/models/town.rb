@@ -5,4 +5,5 @@ class Town < ApplicationRecord
   has_many :shipping_addresses, dependent: :destroy
 
   validates :name, presence: true
+  validates :name, uniqueness: true
 end

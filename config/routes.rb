@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   post 'auth', to: 'auth#create'
-  resources :users
+  resources :users do
+    resources :shipping_addresses, only: %i[create index]
+  end
+  resources :shipping_addresses, only: %i[update show]
   resources :brands, only: %i[show create index]
   resources :categories, only: %i[show create index]
   resources :products, only: %i[show index create]
