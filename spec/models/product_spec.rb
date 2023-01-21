@@ -9,7 +9,7 @@ RSpec.describe Product, type: :model do
     specify { should validate_presence_of(:description) }
   end
 
-  describe 'association' do
+  describe 'associations' do
     specify { should belong_to(:created_by).class_name('User') }
 
     specify { should belong_to(:brand).required }

@@ -10,8 +10,7 @@ class OrdersController < ApplicationController
   end
 
   def create
-    @order = @cart.build_order
-    @order.payment_method = PaymentMethod.find_by id: create_params[:payment_method_id]
+    @order = @cart.build_order order_params
     order_item_attrs = @order.cart.items.select('id as cart_item_id, amount').map(&:attributes)
     @order.items.build order_item_attrs
 
@@ -31,13 +30,7 @@ class OrdersController < ApplicationController
     end
   end
 
-  private
-
-  def create_params
-    params.require(:order).permit(:payment_method_id, :status).except(:status)
-  end
-
-  def ensure_order_owner!
-    @order = @current_user.orders.find(params[:id])
+  def order_params
+    params.require(:order).permit(:shipping_address_id)
   end
 end

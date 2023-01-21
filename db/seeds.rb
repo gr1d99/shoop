@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
 #
@@ -7,7 +9,24 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 ActiveRecord::Base.transaction do
-  user = User.create(
+  OrderItem.delete_all!
+  Order.delete_all!
+
+  CartItem.delete_all!
+  Cart.delete_all!
+
+  Variant.delete_all!
+  Sku.delete_all!
+
+  User.delete_all!
+  Product.delete_all!
+  Category.delete_all!
+  Brand.delete_all!
+  Order.delete_all!
+  Town.destroy_all
+  County.destroy_all
+
+  user = User.create!(
     first_name: 'test',
     last_name: 'user',
     email: 'test@user.com',
@@ -15,6 +34,7 @@ ActiveRecord::Base.transaction do
     password: 'testpassword'
   )
 
+  Rails.logger.debug user
 
   10.times do
     Category.create name: Faker::Lorem.word
@@ -39,6 +59,15 @@ ActiveRecord::Base.transaction do
   end
 
   ['Pay on Delivery', 'Credit Card'].each do |payment_method|
-    PaymentMethod.create name: payment_method.to_s, description: "For #{payment_method.to_s} orders"
+    PaymentMethod.create name: payment_method.to_s, description: "For #{payment_method} orders"
+  end
+
+  counties = JSON.parse File.read('./db/data/ke/county_towns.json')
+  counties.each_key do |county|
+    county = County.create name: county
+
+    counties[county.name].each do |town|
+      Town.create name: town, county: county
+    end
   end
 end

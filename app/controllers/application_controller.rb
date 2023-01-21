@@ -31,6 +31,12 @@ class ApplicationController < ActionController::API
     @cart = cart
   end
 
+  def ensure_order_owner!
+    id = params[:order_id] || params[:id]
+
+    @order = @current_user.orders.find id
+  end
+
   attr_reader :current_user
 
   def record_not_found(exception)

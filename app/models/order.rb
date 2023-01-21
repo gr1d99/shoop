@@ -11,6 +11,7 @@ class Order < ApplicationRecord
   acts_as_paranoid
 
   belongs_to :cart
+  belongs_to :shipping_address
   has_one :orders_payment_methods, class_name: 'OrdersPaymentMethod', dependent: :destroy
   has_one :payment_method, through: :orders_payment_methods
 
@@ -34,7 +35,8 @@ class Order < ApplicationRecord
     state :void
 
     event :process_payment do
-      transitions from: :pending, to: :payment_processing, guard: :verify_payment?
+      transitions from: :pending, to: :payment_processing, guard: :verify_payment_method?
+      transitions from: :pending, to: :order_packaging
     end
 
     event :confirm_payment do
@@ -54,8 +56,8 @@ class Order < ApplicationRecord
     payment_method.name == PAYMENT_METHODS[:pay_on_delivery]
   end
 
-  def verify_payment?
-    return true if pay_on_delivery?
+  def verify_payment_method?
+    !pay_on_delivery?
   end
 
   def payment_confirmed?
