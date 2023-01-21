@@ -36,7 +36,7 @@ class Order < ApplicationRecord
     state :void
 
     event :process_payment do
-      transitions from: :delivered, to: :payment_processing
+      transitions from: :delivered, to: :payment_processing, guard: :payment_received?
     end
 
     event :confirm_payment do
