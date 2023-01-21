@@ -11,12 +11,14 @@ class Order < ApplicationRecord
   acts_as_paranoid
 
   belongs_to :cart
+  belongs_to :shipping_address
   has_one :orders_payment_methods, class_name: 'OrdersPaymentMethod', dependent: :destroy
   has_one :payment_method, through: :orders_payment_methods
+  has_one :payment, dependent: :destroy
 
   has_many :items, class_name: 'OrderItem', dependent: :destroy
 
-  validates :cart, cart_items: true
+  validates :cart, cart_items: true, if: proc { |order| order.cart.present? }
 
   aasm :status do
     state :pending, initial: true
@@ -34,7 +36,7 @@ class Order < ApplicationRecord
     state :void
 
     event :process_payment do
-      transitions from: :pending, to: :payment_processing, guard: :verify_payment?
+      transitions from: :delivered, to: :payment_processing
     end
 
     event :confirm_payment do
@@ -54,11 +56,11 @@ class Order < ApplicationRecord
     payment_method.name == PAYMENT_METHODS[:pay_on_delivery]
   end
 
-  def verify_payment?
-    return true if pay_on_delivery?
+  def payment_received?
+    pay_on_delivery? && payment.present?
   end
 
   def payment_confirmed?
-    return true if pay_on_delivery?
+    false
   end
 end

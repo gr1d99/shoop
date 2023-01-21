@@ -7,12 +7,12 @@ RSpec.describe 'Users', type: :request do
     let(:user_params) { {} }
 
     context 'When params are valid' do
-      let(:params) { attributes_for(:user) }
+      let(:valid_params) { attributes_for(:user) }
 
       before do
-        user_params[:user] = params
+        user_params[:user] = valid_params
 
-        post users_url, params: user_params
+        post users_path, params: user_params
       end
 
       it 'returns status code 201' do

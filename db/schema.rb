@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_19_031404) do
+ActiveRecord::Schema.define(version: 2023_01_21_042740) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,6 +60,13 @@ ActiveRecord::Schema.define(version: 2023_01_19_031404) do
     t.datetime "deleted_at"
     t.text "description", default: ""
     t.index ["deleted_at"], name: "index_categories_on_deleted_at"
+  end
+
+  create_table "counties", force: :cascade do |t|
+    t.string "name"
+    t.integer "code"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -131,15 +138,19 @@ ActiveRecord::Schema.define(version: 2023_01_19_031404) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "status"
+    t.bigint "shipping_address_id", null: false
     t.index ["cart_id"], name: "index_orders_on_cart_id"
     t.index ["deleted_at"], name: "index_orders_on_deleted_at"
+    t.index ["shipping_address_id"], name: "index_orders_on_shipping_address_id"
   end
 
   create_table "orders_payment_methods", force: :cascade do |t|
-    t.bigint "order_id"
-    t.bigint "payment_method_id"
+    t.bigint "order_id", null: false
+    t.bigint "payment_method_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["order_id"], name: "index_orders_payment_methods_on_order_id"
+    t.index ["payment_method_id"], name: "index_orders_payment_methods_on_payment_method_id"
   end
 
   create_table "payment_methods", force: :cascade do |t|
@@ -147,6 +158,23 @@ ActiveRecord::Schema.define(version: 2023_01_19_031404) do
     t.text "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "payments", force: :cascade do |t|
+    t.decimal "amount", precision: 8, scale: 2
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "order_id", null: false
+    t.index ["order_id"], name: "index_payments_on_order_id"
+  end
+
+  create_table "payments_payment_methods", force: :cascade do |t|
+    t.bigint "payment_id", null: false
+    t.bigint "payment_method_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["payment_id"], name: "index_payments_payment_methods_on_payment_id"
+    t.index ["payment_method_id"], name: "index_payments_payment_methods_on_payment_method_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -175,6 +203,20 @@ ActiveRecord::Schema.define(version: 2023_01_19_031404) do
     t.index ["product_id"], name: "index_products_options_on_product_id"
   end
 
+  create_table "shipping_addresses", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "phone"
+    t.bigint "user_id", null: false
+    t.bigint "town_id", null: false
+    t.text "description"
+    t.boolean "is_default", default: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["town_id"], name: "index_shipping_addresses_on_town_id"
+    t.index ["user_id"], name: "index_shipping_addresses_on_user_id"
+  end
+
   create_table "skus", force: :cascade do |t|
     t.string "value", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -182,6 +224,14 @@ ActiveRecord::Schema.define(version: 2023_01_19_031404) do
     t.datetime "deleted_at"
     t.index ["deleted_at"], name: "index_skus_on_deleted_at"
     t.index ["value"], name: "index_skus_on_value", unique: true
+  end
+
+  create_table "towns", force: :cascade do |t|
+    t.string "name"
+    t.bigint "county_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["county_id"], name: "index_towns_on_county_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -223,10 +273,19 @@ ActiveRecord::Schema.define(version: 2023_01_19_031404) do
   add_foreign_key "order_items", "cart_items"
   add_foreign_key "order_items", "orders"
   add_foreign_key "orders", "carts"
+  add_foreign_key "orders", "shipping_addresses"
+  add_foreign_key "orders_payment_methods", "orders"
+  add_foreign_key "orders_payment_methods", "payment_methods"
+  add_foreign_key "payments", "orders"
+  add_foreign_key "payments_payment_methods", "payment_methods"
+  add_foreign_key "payments_payment_methods", "payments"
   add_foreign_key "products", "brands"
   add_foreign_key "products", "categories"
   add_foreign_key "products_options", "options"
   add_foreign_key "products_options", "products"
+  add_foreign_key "shipping_addresses", "towns"
+  add_foreign_key "shipping_addresses", "users"
+  add_foreign_key "towns", "counties"
   add_foreign_key "variants", "products"
   add_foreign_key "variants", "skus"
 end

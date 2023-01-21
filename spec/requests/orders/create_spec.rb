@@ -5,6 +5,7 @@ require 'rails_helper'
 RSpec.describe 'POST /orders', type: :request do
   let(:user) { create :user }
   let(:cart) { create :cart, user: user }
+  let(:shipping_address) { create :shipping_address, user: user }
   let(:payment_method) { create :payment_method, name: 'Pay on Delivery' }
 
   context 'When unauthorized' do
@@ -41,7 +42,7 @@ RSpec.describe 'POST /orders', type: :request do
     before do
       cart.items << cart_item
 
-      post cart_orders_path(cart), params: { order: { payment_method_id: payment_method.id } },
+      post cart_orders_path(cart), params: { order: { shipping_address_id: shipping_address.id } },
                                    headers: authorization_header(user.email)
     end
 
