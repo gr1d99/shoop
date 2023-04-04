@@ -22,8 +22,7 @@ class User < ApplicationRecord
     Order.includes(cart: :user).where({ carts: { user_id: id } })
   end
 
-  private
-
+  # Auth token
   def generate_jwt
     JWT.encode({ identity: email, exp: 7.days.from_now.to_i }, Rails.application.secrets.secret_key_base)
   end

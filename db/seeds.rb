@@ -46,7 +46,7 @@ ActiveRecord::Base.transaction do
 
   20.times do
     product = Product.new name: Faker::Lorem.word,
-                          description: Faker::Lorem.sentence(4),
+                          description: Faker::Lorem.sentence,
                           created_by: user,
                           brand: Brand.all.sample,
                           category: Category.all.sample
