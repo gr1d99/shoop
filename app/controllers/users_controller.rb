@@ -11,11 +11,16 @@ class UsersController < ApplicationController
   end
 
   def create
+    p create_user_params
     @user = User.new(create_user_params)
 
-    @user.save!
+    if @user.valid?
+      @user.save!
 
-    render json: @user, status: :created
+      render json: UserSerializer.new(@user), status: :created
+    else
+      render json: { errors: @user.errors }, status: :unprocessable_entity
+    end
   end
 
   def update
@@ -33,6 +38,6 @@ class UsersController < ApplicationController
   end
 
   def create_user_params
-    params.require(:user).permit(:password).merge user_params
+    params.require(:user).permit(:first_name, :last_name, :email, :phone, :password)
   end
 end
