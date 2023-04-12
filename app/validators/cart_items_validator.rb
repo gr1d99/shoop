@@ -2,6 +2,6 @@
 
 class CartItemsValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, _)
-    record.errors.add attribute, :empty if record.send(attribute).items.size.zero?
+    record.errors.add attribute, :empty if record.send(attribute).items.empty?
   end
 end

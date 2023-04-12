@@ -2,7 +2,7 @@
 
 class CategoriesController < ApplicationController
   def show
-    @category = Category.find(params[:id])
+    @category = Category.friendly.find params[:id]
 
     render json: CategorySerializer.new(@category)
   end

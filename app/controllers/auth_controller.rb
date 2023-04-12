@@ -7,7 +7,7 @@ class AuthController < ApplicationController
     if @user&.authenticate(create_params[:password])
       render json: { token: @user.generate_jwt }
     else
-      render json: { message: 'Invalid email or password' }, status: :unauthorized
+      render json: { message: 'Incorrect email or password' }, status: :unauthorized
     end
   end
 
