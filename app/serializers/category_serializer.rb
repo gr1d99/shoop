@@ -3,6 +3,6 @@
 class CategorySerializer
   include JSONAPI::Serializer
 
-  attributes :name, :meta
+  attributes :name, :slug, :meta
   has_many :products
 end

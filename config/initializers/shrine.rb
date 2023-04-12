@@ -20,9 +20,22 @@ if Rails.env.production?
   }
 end
 
-if Rails.env.test? || Rails.env.development?
-  require 'shrine/storage/memory'
+if Rails.env.development?
+  require 'shrine/storage/file_system'
+
   Shrine.storages = {
+    cache: Shrine::Storage::FileSystem.new('public', prefix: 'uploads/cache'),
+    store: Shrine::Storage::FileSystem.new('public', prefix: 'uploads')
+  }
+end
+
+if Rails.env.test?
+  require 'shrine/storage/memory'
+
+  p "aaa"
+
+  Shrine.storages = {
+    cache: Shrine::Storage::Memory.new,
     store: Shrine::Storage::Memory.new
   }
 end

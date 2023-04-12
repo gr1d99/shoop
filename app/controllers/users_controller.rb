@@ -11,7 +11,6 @@ class UsersController < ApplicationController
   end
 
   def create
-    p create_user_params
     @user = User.new(create_user_params)
 
     if @user.valid?
