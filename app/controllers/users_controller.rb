@@ -1,7 +1,14 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  before_action :authenticate, only: %i[index update]
+  before_action :authenticate, only: %i[show index update]
+
+  def show
+    @user = User.find params[:id]
+
+    render json: UserSerializer.new(@user)
+  end
+
   def index
     @users = User.page(pagination_params[:page]).per(pagination_params[:limit])
 
