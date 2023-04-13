@@ -49,6 +49,10 @@ class CartItemsController < ApplicationController
 
   private
 
+  def filter_params
+    params.permit(:page, :limit)
+  end
+
   def cart_item_params
     params.require(:cart_item).permit(:product_id, :amount, :sku_id, :quantity)
   end

@@ -8,10 +8,6 @@ module PaginationConcern
 
     private
 
-    def pagination_params
-      filter_params.with_defaults(page: 1, limit: 25)
-    end
-
     def with_pagination_options(records, request = nil, &block)
       total_records = records.total_count
       current_page = pagination_params[:page].to_i
@@ -23,6 +19,10 @@ module PaginationConcern
                          next_page: next_page, total_pages: total_pages }.merge(request: request)
 
       block.call(options) if block_given?
+    end
+
+    def pagination_params
+      params.permit(:page, :limit).with_defaults(page: 1, limit: 25)
     end
   end
 end
