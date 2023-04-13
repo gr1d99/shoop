@@ -1,9 +1,16 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  before_action :authenticate, only: %i[index update]
+  before_action :authenticate, only: %i[show index update]
+
+  def show
+    @user = User.find params[:id]
+
+    render json: UserSerializer.new(@user)
+  end
+
   def index
-    @users = User.page(pagination_params[:page]).per(pagination_params[:limit])
+    @users = UserQueries.call(User.all, params).page(pagination_params[:page]).per(pagination_params[:limit])
 
     with_pagination_options(@users) do |options|
       render json: UserSerializer.new(@users, options)
@@ -31,6 +38,10 @@ class UsersController < ApplicationController
   end
 
   private
+
+  def filter_params
+    params.permit(:page, :limit, :id, :user_id, :first_name, :last_name, :email, :phone)
+  end
 
   def user_params
     params.require(:user).permit(:first_name, :last_name, :email, :phone)

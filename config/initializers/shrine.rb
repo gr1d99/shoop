@@ -32,8 +32,6 @@ end
 if Rails.env.test?
   require 'shrine/storage/memory'
 
-  p "aaa"
-
   Shrine.storages = {
     cache: Shrine::Storage::Memory.new,
     store: Shrine::Storage::Memory.new

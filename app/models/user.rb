@@ -5,6 +5,8 @@ class User < ApplicationRecord
 
   has_secure_password
 
+  default_scope -> { order :created_at }
+
   has_many :products, foreign_key: :created_by_id, dependent: :destroy, inverse_of: :created_by
   has_many :carts, inverse_of: :user, dependent: :destroy
   has_many :shipping_addresses, dependent: :destroy

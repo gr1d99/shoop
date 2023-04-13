@@ -9,7 +9,7 @@ module PaginationConcern
     private
 
     def pagination_params
-      params.permit(:page, :limit).with_defaults(page: 1, limit: 25)
+      filter_params.with_defaults(page: 1, limit: 25)
     end
 
     def with_pagination_options(records, request = nil, &block)
