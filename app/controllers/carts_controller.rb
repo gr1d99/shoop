@@ -3,6 +3,12 @@
 class CartsController < ApplicationController
   before_action :authenticate
 
+  def show
+    @cart = Cart.where(user: current_user).find(params[:id])
+
+    render json: CartSerializer.new(@cart)
+  end
+
   def index
     @carts = Cart.where(user: current_user).page(pagination_params[:page]).per(pagination_params[:limit])
 
@@ -26,6 +32,10 @@ class CartsController < ApplicationController
   end
 
   private
+
+  def filter_params
+    params.permit(:page, :limit)
+  end
 
   def cart_params
     params.require(:cart).permit
