@@ -22,7 +22,7 @@ module PaginationConcern
     end
 
     def pagination_params
-      params.permit(:page, :limit).with_defaults(page: 1, limit: 25)
+      params.with_defaults(page: 1, limit: 25)
     end
   end
 end
