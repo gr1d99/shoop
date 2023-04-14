@@ -9,7 +9,8 @@ class ProductsController < ApplicationController
   end
 
   def index
-    @products = Product.includes(:images, :master).page(pagination_params[:page]).per(pagination_params[:limit])
+    @products = Product.includes(:category, :images,
+                                 :master).page(pagination_params[:page]).per(pagination_params[:limit])
     with_pagination_options(@products) do |options|
       render json: ProductSerializer.new(@products, options)
     end

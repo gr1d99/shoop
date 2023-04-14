@@ -18,24 +18,19 @@ class CartsController < ApplicationController
   end
 
   def create
-    status = :created
-
     if Cart.exists?(user: current_user)
       @cart = Cart.find_by(user: current_user)
-      status = :ok
+
+      render json: CartSerializer.new(@cart), status: :ok and return
     else
       @cart = Cart.new(user: current_user)
       @cart.save!
-    end
 
-    render json: CartSerializer.new(@cart), status: status
+      render json: CartSerializer.new(@cart), status: :created and return
+    end
   end
 
   private
-
-  def filter_params
-    params.permit(:page, :limit)
-  end
 
   def cart_params
     params.require(:cart).permit
