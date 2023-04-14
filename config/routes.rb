@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'payments/create'
   post 'auth', to: 'auth#create'
   resources :users do
     resources :shipping_addresses, only: %i[create index]
@@ -16,5 +17,6 @@ Rails.application.routes.draw do
   resources :payment_methods, only: :index
   resources :orders, only: :show do
     resources :orders_payment_methods, only: :create, as: :payment_methods
+    resources :payments, only: :create
   end
 end

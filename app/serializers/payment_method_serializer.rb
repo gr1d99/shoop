@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class PaymentMethodsSerializer
+class PaymentMethodSerializer
   include JSONAPI::Serializer
 
   attributes :name, :description
