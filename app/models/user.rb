@@ -10,6 +10,11 @@ class User < ApplicationRecord
   has_many :products, foreign_key: :created_by_id, dependent: :destroy, inverse_of: :created_by
   has_many :carts, inverse_of: :user, dependent: :destroy
   has_many :shipping_addresses, dependent: :destroy
+  has_one :current_cart, lambda {
+                           Cart
+                             .left_joins(:order).where('orders.cart_id IS NULL')
+                             .or(Cart.left_joins(:order).where("orders.status='pending'"))
+                         }, dependent: :destroy, class_name: 'Cart', inverse_of: :user
 
   with_options presence: true do
     validates :first_name
