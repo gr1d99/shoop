@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.7.0'
+ruby '3.2.0'
 
 gem 'acts_as_paranoid'
 gem 'aasm'
@@ -16,6 +16,7 @@ gem 'jsonapi-serializer'
 gem 'jwt'
 gem 'kaminari'
 gem 'pg', '>= 0.18', '< 2.0'
+gem 'psych', '< 4'
 gem 'puma', '~> 4.1'
 gem 'rack-cors'
 gem 'rails', '~> 6.0.3', '>= 6.0.3.4'
@@ -26,7 +27,7 @@ group :development, :test do
   gem 'bullet'
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails'
-  gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'main'
+  gem 'faker'
   gem 'guard-rspec', require: false
   gem 'pry-rails'
   gem 'rspec-rails'
