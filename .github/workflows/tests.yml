@@ -1,0 +1,45 @@
+name: Tests
+on: [push, pull_request]
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest, ubuntu-18.04 ]
+    runs-on: ${{ matrix.os }}
+    services:
+      postgres:
+        image: postgres:11
+        env:
+          POSTGRES_USER: shoop
+          POSTGRES_DB: shoop_test
+          POSTGRES_PASSWORD: gemini_v2_pass
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports: [ '5432:5432' ]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Setup Database
+        env:
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+          RAILS_ENV: test
+          PGHOST: localhost
+          PGUSER: shoop
+          PGPASSWORD: shoop
+        run: |
+          bin/rails db:prepare
+      - name: Run Specs
+        env:
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+          RAILS_ENV: test
+          PGHOST: localhost
+          PGUSER: shoop
+          PGPASSWORD: shoop
+        run: |
+          bundle exec rspec
