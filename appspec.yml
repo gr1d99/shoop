@@ -2,15 +2,21 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /var/www/shoop
-  - source: ./shoop.conf
-    destination: /etc/nginx/sites-enabled
-
+    destination: /home/shoop/shoop
 hooks:
   BeforeInstall:
-    - location: aws-codedeploy-helpers/BeforeInstall.sh
-      timeout: 1000
+    - location: deployment/BeforeInstall.sh
+      timeout: 300
       runas: root
-
+  AfterInstall:
+    - location: deployment/AfterInstall.sh
+      timeout: 300
+      runas: root
   ApplicationStart:
-    - location: aws-codedeploy-helpers/ApplicationStart.sh
+    - location: deployment/ApplicationStart.sh
+      timeout: 300
+      runas: root
+  ApplicationStop:
+    - location: deployment/ApplicationStop.sh
+      timeout: 300
+      runas: root

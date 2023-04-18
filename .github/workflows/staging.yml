@@ -1,0 +1,22 @@
+name: staging-build
+
+on:
+  push:
+    branches: [develop]
+
+jobs:
+  build-n-deploy:
+    name: Build and deploy to staging
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup CI/CD Server
+        run: |
+          sudo apt-get update &&
+          sudo apt-get install -y awscli
+      - name: Deploy to staging
+        run: aws deploy create-deployment --region ${{ secrets.AWS_REGION }} --application-name shoop-app --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name shoop-stage-dg --description "Github deployment for commit ${{ github.event.pull_request.head.sha }}" --github-location repository=gr1d99/shoop,commitId=${GITHUB_SHA}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
