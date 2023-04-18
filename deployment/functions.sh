@@ -10,7 +10,7 @@ after_install() {
     # nginx config
     sudo touch /etc/nginx/sites-enabled/shoop.conf
     sudo touch /etc/nginx/conf.d/shoop.conf
-    sudo touch /opt/nginx/conf/shoop.conf
+    sudo cp /home/shoop/shoop/deployment/shoop.nginx.conf /etc/nginx/sites-enabled/shoop.conf
 }
 
 application_start() {
