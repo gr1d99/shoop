@@ -10,7 +10,7 @@ after_install() {
     # nginx config
     sudo touch /etc/nginx/sites-enabled/shoop.conf
     sudo touch /etc/nginx/conf.d/shoop.conf
-    sudo cp /home/shoop/shoop/deployment/shoop.nginx.conf /etc/nginx/sites-enabled/shoop.conf
+    sudo touch /opt/nginx/conf/shoop.conf
 }
 
 application_start() {
@@ -21,10 +21,12 @@ application_start() {
     cd /home/shoop/shoop
     bundle install
     bundle exec rails db:prepare
+    rails start -b 0.0.0.0
 EOF
     sudo service nginx start
 }
 
 application_stop() {
+
   sudo service nginx stop
 }
