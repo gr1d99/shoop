@@ -15,6 +15,7 @@ after_install() {
 
 application_start() {
     sudo -i -u shoop << EOF
+    rvm install 3.2.0
     rvm use 3.2.0 --default
     rvm autolibs disable
 
