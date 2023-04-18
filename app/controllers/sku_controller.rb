@@ -25,10 +25,6 @@ class SkuController < ApplicationController
 
   private
 
-  def filter_params
-    params.permit(:page, :limit)
-  end
-
   def sku_params
     params.require(:sku).permit(:value)
   end
