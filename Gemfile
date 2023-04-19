@@ -15,10 +15,8 @@ gem 'jsonapi.rb'
 gem 'jsonapi-serializer'
 gem 'jwt'
 gem 'kaminari'
-gem 'passenger', '>= 5.0.25', require: 'phusion_passenger/rack_handler'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'psych', '< 4'
-# gem 'puma', '~> 4.1'
 gem 'rack-cors'
 gem 'rails', '~> 6.0.3', '>= 6.0.3.4'
 gem 'ransack'
@@ -31,9 +29,14 @@ group :development, :test do
   gem 'faker'
   gem 'guard-rspec', require: false
   gem 'pry-rails'
+  gem 'puma', '~> 4.1'
   gem 'rspec-rails'
   gem 'rubocop-rails', require: false
   gem 'shoulda-matchers', '~> 4.0'
+end
+
+group :production do
+  gem 'passenger', '>= 5.0.25', require: 'phusion_passenger/rack_handler'
 end
 
 group :development do

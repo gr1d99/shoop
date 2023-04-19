@@ -29,7 +29,8 @@ ActiveRecord::Schema.define(version: 2023_01_20_141624) do
   create_table "cart_items", force: :cascade do |t|
     t.bigint "cart_id", null: false
     t.bigint "product_id", null: false
-    t.bigint "sku_id", null: false
+    t.bigint "sku_id"
+    t.bigint "{:null=>false, :foreign_key=>true}_id"
     t.decimal "amount", precision: 8, scale: 2
     t.integer "quantity", default: 1
     t.datetime "deleted_at"
@@ -40,6 +41,7 @@ ActiveRecord::Schema.define(version: 2023_01_20_141624) do
     t.index ["product_id", "cart_id", "sku_id"], name: "index_items_on_product_id_and_cart_id_sku_id_and_deleted_at", unique: true, where: "(deleted_at IS NULL)"
     t.index ["product_id"], name: "index_cart_items_on_product_id"
     t.index ["sku_id"], name: "index_cart_items_on_sku_id"
+    t.index ["{:null=>false, :foreign_key=>true}_id"], name: "index_cart_items_on_{:null=>false, :foreign_key=>true}_id"
   end
 
   create_table "carts", force: :cascade do |t|
@@ -263,7 +265,6 @@ ActiveRecord::Schema.define(version: 2023_01_20_141624) do
 
   add_foreign_key "cart_items", "carts"
   add_foreign_key "cart_items", "products"
-  add_foreign_key "cart_items", "skus"
   add_foreign_key "carts", "users"
   add_foreign_key "option_values", "options"
   add_foreign_key "option_values_variants", "option_values"
