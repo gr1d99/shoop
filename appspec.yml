@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/shoop/shoop
+    destination: /home/shoop
 hooks:
   BeforeInstall:
     - location: deployment/BeforeInstall.sh
@@ -15,7 +15,7 @@ hooks:
   ApplicationStart:
     - location: deployment/ApplicationStart.sh
       timeout: 300
-      runas: ubuntu
+      runas: root
   ApplicationStop:
     - location: deployment/ApplicationStop.sh
       timeout: 300
