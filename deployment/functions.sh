@@ -13,14 +13,18 @@ after_install() {
     else
       sudo ln -s /etc/nginx/sites-available/shoop.conf /etc/nginx/sites-enabled/shoop.conf
     fi
+
+    sudo -i -u shoop << EOF
+      cd /home/shoop/shoop
+      rvm install 3.2.0
+      rvm use 3.2.0 --default
+      rvm autolibs disable
+EOF
 }
 
 application_start() {
     sudo -i -u shoop << EOF
     cd /home/shoop/shoop
-    rvm install 3.2.0
-    rvm use 3.2.0 --default
-    rvm autolibs disable
 
     bundle install
     bundle exec rails db:prepare
