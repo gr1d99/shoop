@@ -5,6 +5,8 @@ before_install() {
 }
 
 after_install() {
+    sudo chown -R shoo: /home/shoop/shoop
+
     sudo cp /home/shoop/shoop/deployment/shoop_nginx.conf /etc/nginx/sites-available/shoop.conf
     if [ -f "/etc/nginx/sites-enabled/shoop.conf" ]
     then
