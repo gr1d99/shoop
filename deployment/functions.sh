@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 
 before_install() {
-    sudo rm -rf /home/shoop/shoop
+    sudo rm -rf /home/app
 }
 
 after_install() {
-    sudo chown -R shoo: /home/shoop/shoop
+    sudo mkdir /home/app
+    sudo chown -R shoo: /home/app
 
-    sudo cp /home/shoop/shoop/deployment/shoop_nginx.conf /etc/nginx/sites-available/shoop.conf
+    sudo cp /home/app/deployment/shoop_nginx.conf /etc/nginx/sites-available/shoop.conf
     if [ -f "/etc/nginx/sites-enabled/shoop.conf" ]
     then
       sudo unlink /etc/nginx/sites-enabled/shoop.conf
@@ -17,7 +18,7 @@ after_install() {
     fi
 
     sudo -i -u shoop << EOF
-      cd /home/shoop/shoop
+      cd /home/app
       rvm install 3.2.0
       rvm use 3.2.0 --default
       rvm autolibs disable
@@ -26,7 +27,7 @@ EOF
 
 application_start() {
     sudo -i -u shoop << EOF
-    cd /home/shoop/shoop
+    cd /home/app
 
     bundle install
     bundle exec rails db:prepare
