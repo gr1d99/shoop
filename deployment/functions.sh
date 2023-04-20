@@ -16,15 +16,15 @@ after_install() {
 }
 
 application_start() {
-#    sudo -i -u shoop << EOF
-#    rvm install 3.2.0
-#    rvm use 3.2.0 --default
-#    rvm autolibs disable
-#
-#    cd /home/shoop/shoop
-#    bundle install
-#    bundle exec rails db:prepare
-#EOF
+    sudo -i -u shoop << EOF
+    cd /home/shoop/shoop
+    rvm install 3.2.0
+    rvm use 3.2.0 --default
+    rvm autolibs disable
+
+    bundle install
+    bundle exec rails db:prepare
+EOF
     sudo service nginx start
 }
 
