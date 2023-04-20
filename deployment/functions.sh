@@ -5,6 +5,7 @@ before_install() {
 }
 
 after_install() {
+    sudo chmod g+x,o+x /home/shoop
     sudo mkdir /home/app
     sudo chown -R shoop: /home/app
 
