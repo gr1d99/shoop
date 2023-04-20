@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/shoop
+    destination: /home/shoop/shoop
 hooks:
   BeforeInstall:
     - location: deployment/BeforeInstall.sh
