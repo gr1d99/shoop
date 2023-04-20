@@ -6,7 +6,7 @@ before_install() {
 
 after_install() {
     sudo mkdir /home/app
-    sudo chown -R shoo: /home/app
+    sudo chown -R shoop: /home/app
 
     sudo cp /home/app/deployment/shoop_nginx.conf /etc/nginx/sites-available/shoop.conf
     if [ -f "/etc/nginx/sites-enabled/shoop.conf" ]
