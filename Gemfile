@@ -29,15 +29,15 @@ group :development, :test do
   gem 'faker'
   gem 'guard-rspec', require: false
   gem 'pry-rails'
-  # gem 'puma', '~> 4.1'
+  gem 'puma', '~> 4.1'
   gem 'rspec-rails'
   gem 'rubocop-rails', require: false
   gem 'shoulda-matchers', '~> 4.0'
 end
 
-# group :production do
+group :production do
   gem 'passenger', '>= 5.0.25', require: 'phusion_passenger/rack_handler'
-# end
+end
 
 group :development do
   gem 'listen', '~> 3.2'
