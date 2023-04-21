@@ -43,15 +43,27 @@ if Rails.env.development?
       Brand.create name: Faker::Lorem.word
     end
 
+    image_index = 0
+    image_path = 'data/images'
     20.times do
+      image_index = 0 if image_index === 5
+
       product = Product.new name: Faker::Lorem.word,
                             description: Faker::Lorem.sentence(word_count: 10),
                             created_by: user,
                             brand: Brand.all.sample,
                             category: Category.all.sample
 
+      images_dir = File.join(File.expand_path(File.dirname(__FILE__ )), image_path)
+      image_files = Dir.entries(images_dir).select { |f| File.file? "#{images_dir}/#{f}" }
+      image_file = File.open("#{images_dir}/#{image_files[image_index]}")
+      image = Image.create image: image_file, name: "Image - #{image_index}", alt: "Image - #{image_index}"
+      product.images << image
+      image_index += 1
+
       sku = Sku.new value: Faker::Internet.unique.password(min_length: 6, max_length: 8)
-      master_variant = Variant.new stock: Faker::Number.number(digits: 2), product: product, sku: sku, is_master: true, price: (0...9999).to_a.sample
+      master_variant = Variant.new stock: Faker::Number.number(digits: 2), product:, sku:, is_master: true,
+                                   price: (0...9999).to_a.sample
       product.master = master_variant
 
       product.save!
@@ -66,7 +78,7 @@ if Rails.env.development?
       county = County.create name: county
 
       counties[county.name].each do |town|
-        Town.create name: town, county: county
+        Town.create name: town, county:
       end
     end
   end
